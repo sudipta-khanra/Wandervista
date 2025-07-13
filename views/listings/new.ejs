@@ -1,0 +1,185 @@
+<% layout("/layouts/boilerplate.ejs")%>
+<link rel="stylesheet" href="/css/new.css" />
+
+<div class="row mt-3">
+  <div class="col-8 offset-2">
+    <br /><br />
+    <h2>Create a new Listing</h2>
+    <form
+      method="POST"
+      action="/listings"
+      novalidate
+      class="needs-validation pevent-default"
+      enctype="multipart/form-data"
+    >
+      <div class="mb-3">
+        <label for="title" class="form-label">Title</label>
+        <input
+          name="listing[title]"
+          type="text"
+          placeholder="add a catchy title"
+          class="form-control"
+          required
+        />
+        <div class="valid-feedback">Looks good!</div>
+        <div class="invalid-feedback">Write a catchy title.</div>
+      </div>
+
+      <div class="mb-3">
+        <label for="description" class="form-label">Description</label>
+        <textarea
+          name="listing[description]"
+          type="text"
+          placeholder="write something here"
+          class="form-control"
+          rows="4"
+          required
+        ></textarea>
+        <div class="invalid-feedback">Write a short description.</div>
+      </div>
+
+      <div class="mb-3">
+        <label for="image" class="form-label">Upload Listing Image</label>
+        <input
+          name="listing[image][url]"
+          type="file"
+          class="form-control"
+          required
+        />
+      </div>
+
+      <div class="row">
+        <div class="mb-3 col-md-4">
+          <label for="price" class="form-label">Price</label>
+          <input
+            name="listing[price]"
+            type="number"
+            placeholder="1200"
+            class="form-control"
+            required
+          />
+          <div class="invalid-feedback">Price should be valid.</div>
+        </div>
+
+        <div class="mb-3 col-md-8">
+          <label for="location" class="form-label">Location</label>
+          <input
+            name="listing[location]"
+            type="text"
+            placeholder="Kolkata"
+            class="form-control"
+            required
+          />
+          <div class="invalid-feedback">Location should be valid.</div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="mb-3 col-md-9">
+          <label for="country" class="form-label">Country</label>
+          <input
+            name="listing[country]"
+            type="text"
+            placeholder="India"
+            class="form-control"
+            required
+          />
+          <div class="invalid-feedback">Country should be valid.</div>
+        </div>
+
+        <div class="mb-3 col-md-3">
+          <label class="form-label d-block">&nbsp;</label>
+          <div
+            class="form-control d-flex align-items-center justify-content-center"
+            style="cursor: pointer"
+            id="moreOptionsBox"
+          >
+            <input type="checkbox" id="toggleEnumOptions" class="d-none" />
+            <label for="toggleEnumOptions" class="mb-0 w-100 text-center addMoreOption">
+              Add More Options
+            </label>
+          </div>
+          <div id="overlay" style="display: none"></div>
+
+          <!-- ENUM MODAL WRAPPER (outside the main form layout) -->
+          <div id="enumOptionsWrapper" style="display: none">
+            <div class="container">
+              <!-- Progress Bar -->
+              <div class="progress-bar">
+                <div class="progress-bar-fill"></div>
+              </div>
+              <button
+                type="button"
+                id="closeModalBtn"
+                style="
+                  position: absolute;
+                  top: 20px;
+                  right: 30px;
+                  background: transparent;
+                  border: none;
+                  font-size: 24px;
+                  cursor: pointer;
+                  z-index: 9999;
+                "
+              >
+                &times;
+              </button>
+
+              <div id="step1" class="step">
+                <label class="section-title">Property Type</label>
+                <div class="grid-2" id="propertyTypes"></div>
+              </div>
+
+              <div id="step2" class="step hidden">
+                <label class="section-title">Type of Place</label>
+                <div class="grid-1" id="placeTypes"></div>
+              </div>
+
+              <div id="step3" class="step hidden">
+                <label class="section-title">Listing Categories</label>
+                <div class="grid-3" id="categories"></div>
+              </div>
+
+              <div id="step4" class="step hidden">
+                <label class="section-title">Amenities</label>
+                <div class="grid-3" id="amenities"></div>
+              </div>
+
+              <div id="step5" class="step hidden">
+                <label class="section-title">Top Picks</label>
+                <div class="grid-3" id="topPicks"></div>
+              </div>
+
+              <input
+                type="hidden"
+                name="listing[propertyType]"
+                id="propertyTypeInput"
+              />
+              <input
+                type="hidden"
+                name="listing[placeType]"
+                id="placeTypeInput"
+              />
+
+              <div id="categoryInputs"></div>
+              <div id="amenityInputs"></div>
+              <div id="topPickInputs"></div>
+
+              <div class="nav-buttons">
+                <button type="button" id="backBtn" class="nav-btn">Back</button>
+                <button type="button" id="nextBtn" class="nav-btn">Next</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <br />
+      <button class="btn btn-dark add-btn">Add</button>
+      <br /><br />
+      <br />
+    </form>
+  </div>
+</div>
+
+<script src="/js/new.js"></script>

@@ -1,0 +1,581 @@
+<% layout("/layouts/boilerplate.ejs")%>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/litepicker/dist/css/litepicker.css" />
+
+
+<script>
+  // Remove or comment this out if you don't pass 'listings'
+  // const allListings = <%- JSON.stringify(listings) %>;
+  const mapToken = "<%= process.env.MAP_API %>";
+  const listing = <%- JSON.stringify(listing) %>;
+</script>
+
+<div class="container navbar_space">
+  <div class="card-show mx-auto" style="max-width: 750px">
+    <h2 class="mt-4"><%= listing.title %></h2>
+    <img
+      src="<%= listing.image.url %>"
+      class="card-img-top"
+      alt="listing_img"
+      style="height: 330px; width: 750px; object-fit: cover"
+    />
+       <p>Owned By <i><%= listing.owner.username%></i></p>
+   
+    <div class="card-body">
+      <p class="card-text mt-2 mb-2"><%= listing.description %></p>
+      <ul>
+        <% const finalPrice = Math.round(listing.price * 1.18); %>
+        <li>
+          Price: ₹<%= finalPrice.toLocaleString("en-IN") %>  /night (includes 18%
+          GST)
+        </li>
+
+        <li>Location: <%= listing.location %></li>
+        <li>Country: <%= listing.country %></li>
+      </ul>
+
+      <% if(currUser && currUser._id.equals(listing.owner._id)) {%>
+      <div class="mt-4 d-flex justify-content-start btns">
+        <!-- d-flex justify-content-between -->
+        <a
+          href="/listings/<%= listing._id %>/edit"
+          class="btn btn-dark me-3 ps-5 pe-5"
+          >Edit</a
+        >
+<button onclick="openListingDeleteModal('<%= listing._id %>')" class="custom-btn-danger">
+  Delete
+</button>
+
+      </div>
+      <% } %> 
+      
+<!-- Listing Delete Modal -->
+<div id="listing-delete-modal" class="custom-modal-hidden custom-modal-overlay">
+  <div class="custom-modal-content">
+    <h2 class="custom-modal-title">Confirm Deletion</h2>
+    <p class="custom-modal-text">Do you really want to remove this post? This action cannot be undone.</p>
+    <form id="listing-delete-form" method="POST">
+      <button type="button" onclick="closeListingDeleteModal()" class="custom-btn-cancel">
+        Cancel
+      </button>
+      <button type="submit" class="custom-btn-confirm">
+        Yes, Delete
+      </button>
+    </form>
+  </div>
+</div>
+
+<div class="guest-rating-box">
+<div class="section1">
+  <!-- Section 1 -->
+      <img class="laurel-icon" src="/reviewImg1.jpg" alt="left laurel" />
+
+  <div class="section">
+    Guest<br />
+    favourite
+  </div>
+    <img class="laurel-icon" src="/reviewImg2(1)(1).jpg" alt="left laurel" />
+</div>
+
+  <div class="section-para text-muted font">
+    One of the most loved homes on Wandervista,<br />
+    according to guests
+  </div>
+
+  <div class="section">
+    <span class="rating-value"><%= averageRating.toFixed(2) %></span><br />
+    <span class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+  </div>
+<div class="vertical-bar"></div>
+
+  <div class="section text-muted">
+    <%= listing.reviews.length %><br />
+    reviews
+  </div>
+
+</div>
+    <%if(currUser) {%>
+      <div class="mt-5">
+        <hr />
+        <h4 class="col-8 mb-3">Leave a Review</h4>
+        <form
+          method="POST"
+          action="/listings/<%= listing._id%>/reviews"
+          novalidate
+          class="needs-validation"
+        >
+          <div class="mt-3 mb-3">
+            <fieldset class="starability-slot">
+              <input
+                type="radio"
+                id="no-rate"
+                class="input-no-rate"
+                name="review[rating]"
+                value="1"
+                checked
+                aria-label="No rating."
+              />
+              <input
+                type="radio"
+                id="first-rate1"
+                name="review[rating]"
+                value="1"
+              />
+              <label for="first-rate1" title="Terrible">1 star</label>
+              <input
+                type="radio"
+                id="first-rate2"
+                name="review[rating]"
+                value="2"
+              />
+              <label for="first-rate2" title="Not good">2 stars</label>
+              <input
+                type="radio"
+                id="first-rate3"
+                name="review[rating]"
+                value="3"
+              />
+              <label for="first-rate3" title="Average">3 stars</label>
+              <input
+                type="radio"
+                id="first-rate4"
+                name="review[rating]"
+                value="4"
+              />
+              
+              <label for="first-rate4" title="Very good">4 stars</label>
+              <input
+                type="radio"
+                id="first-rate5"
+                name="review[rating]"
+                value="5"
+              />
+              <label for="first-rate5" title="Amazing">5 stars</label>
+            </fieldset>
+          </div>
+          <div class="mb-2 mt-3">
+            <label for="comment" class="form-label">Comments</label>
+            <textarea
+              id="comment"
+              class="form-control"
+              rows="4"
+              cols="25"
+              name="review[comment]"
+              required
+            ></textarea>
+            <div class="invalid-feedback">Please enter your comment.</div>
+          </div>
+          <button class="btn btn-outline-dark mb-5 mt-2">Submit</button>
+        </form>
+      </div>
+      <% } %> <% if(listing.reviews.length > 0 ) { %>
+      <hr />
+<h4>All Reviews</h4>
+<ul class="reviews-list">
+  <% listing.reviews.forEach((review, index) => { %>
+    <% if (index < 4) { %>
+    <li class="review-card p-2">
+      <div class="review-user-info">
+        <img src="<%= review.userAvatar || '/myImg.jpg' %>" alt="User pic" class="review-avatar" />
+        <div>
+          <strong class="review-name">@<%= review.author?.username ? review.author.username : 'Meet' %></strong>
+          <p class="review-duration">2 months on Airbnb</p>
+        </div>
+      </div>
+
+      <div class="review-meta p-2">
+        <span class="review-stars text-warning small">
+          <% for (let i = 0; i < review.rating; i++) { %>
+            <i class="fas fa-star"></i>
+          <% } %>
+          <% for (let i = review.rating; i < 5; i++) { %>
+            <i class="far fa-star"></i>
+          <% } %>
+        </span>
+        <span class="review-date">
+          <%= new Date(review.createdAt).toLocaleString('default', { month: 'short', year: 'numeric' }) %>
+        </span>
+      </div>
+
+      <p class="review-text short-text">
+        <%= review.comment.length > 105 ? review.comment.substring(0, 105) + '...' : review.comment %>
+      </p>
+      <% if (review.comment.length > 105) { %>
+      <button class="show-more-btn" onclick="toggleReview(this)">
+        Show more
+      </button>
+      <p class="review-text full-text" style="display: none">
+        <%= review.comment %>
+      </p>
+      <% } %>
+
+      <form class="mt-auto d-flex justify-content-start" method="POST"
+        action="/listings/<%=listing._id%>/reviews/<%=review._id%>?_method=DELETE">
+        <button class="btn btn-dark p-1">Delete</button>
+      </form>
+    </li>
+    <% } %>
+  <% }) %>
+</ul>
+
+<!-- ✅ Show All Reviews Button -->
+<% if (listing.reviews.length > 4) { %>
+  <div class=" mt-3">
+    <button class="btn btn-outline-dark btn-sm" data-bs-toggle="modal" data-bs-target="#allReviewsModal">
+      Show All Reviews
+    </button>
+  </div>
+<% } %>
+
+      <% } %>
+    </div>
+  </div>
+
+<!-- ✅ Modal (All Reviews) -->
+<div class="modal fade" id="allReviewsModal" tabindex="-1" aria-labelledby="allReviewsLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="allReviewsLabel">All Reviews</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <ul class="reviews-list">
+          <% listing.reviews.forEach((review) => { %>
+          <li class="review-card p-2">
+            <div class="review-user-info">
+              <img src="<%= review.userAvatar || '/myImg.jpg' %>" alt="User pic" class="review-avatar" />
+              <div>
+                <strong class="review-name">@<%= review.author?.username ? review.author.username : 'Meet' %></strong>
+                <p class="review-duration">2 months on Airbnb</p>
+              </div>
+            </div>
+            <div class="review-meta">
+              <span class="review-stars text-warning small">
+                <% for (let i = 0; i < review.rating; i++) { %>
+                  <i class="fas fa-star"></i>
+                <% } %>
+                <% for (let i = review.rating; i < 5; i++) { %>
+                  <i class="far fa-star"></i>
+                <% } %>
+              </span>
+              <span class="review-date">
+                <%= new Date(review.createdAt).toLocaleString('default', { month: 'short', year: 'numeric' }) %>
+              </span>
+            </div>
+            <p class="review-text short-text">
+              <%= review.comment.length > 150 ? review.comment.substring(0, 150) + '...' : review.comment %>
+            </p>
+            <% if (review.comment.length > 150) { %>
+            <button class="show-more-btn" onclick="toggleReview(this)">
+              Show more
+            </button>
+            <p class="review-text full-text" style="display: none">
+              <%= review.comment %>
+            </p>
+            <% } %>
+            <form class="mt-auto d-flex justify-content-start" method="POST"
+              action="/listings/<%=listing._id%>/reviews/<%=review._id%>?_method=DELETE">
+              <button class="btn btn-dark p-1">Delete</button>
+            </form>
+          </li>
+          <% }) %>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+ 
+<!-- Testing -->
+<%
+  const iconMap = {
+    'apartment': 'apartment',
+    'house': 'house',
+    'villa': 'villa',
+    'guesthouse': 'cottage',
+    'hotel': 'hotel',
+    'entire place': 'home',
+    'private room': 'meeting_room',
+    'shared room': 'bed',
+    'trending': 'trending_up',
+    'beach': 'beach_access',
+    'iconic cities': 'location_city',
+    'mountains': 'terrain',
+    'rooms': 'meeting_room',
+    'amazing pools': 'pool',
+    'camping': 'park',
+    'lake front': 'water',
+    'castles': 'castle',
+    'farms': 'agriculture',
+    'tiny house': 'home',
+    'cable car': 'cable',
+    'hotels': 'hotel',
+    'worship': 'temple_buddhist',
+    'domes': 'account_balance',
+    'boats': 'directions_boat',
+    'wifi': 'wifi',
+    'kitchen': 'kitchen',
+    'free parking': 'local_parking',
+    'air conditioning': 'ac_unit',
+    'washer': 'local_laundry_service',
+    'tv': 'tv',
+    'pool': 'pool',
+    'heating': 'whatshot',
+    'workspace': 'laptop',
+    'pet-friendly': 'pets',
+    'fridge': 'kitchen',
+    'microwave': 'microwave',
+    'sound system': 'speaker',
+    'carbon monoxide alarm': 'cancel',
+    'smoke alarm': 'cancel',
+  };
+%>
+
+<%
+  function getIcon(amenity) {
+    return iconMap[amenity.toLowerCase()] || 'home';
+  }
+%>
+
+<%
+  const shownAmenities = listing.amenities.slice(0, 6);
+%>
+
+<hr class="container mb-5 mt-4 col-md-10"/>
+
+<div class="container mb-5 mt-4 col-md-10">
+  <h3 class="fw-bold mb-4">🏠 About the Property</h3>
+
+  <div class="row">
+    <% const placeKey = listing.placeType.toLowerCase(); %>
+    <% const propertyKey = listing.propertyType.toLowerCase(); %>
+
+    <!-- Property Type -->
+    <div class="col-md-6 mb-4">
+      <div class="border rounded p-4 shadow-sm h-100 d-flex align-items-center">
+        <div class="me-3">
+          <i class="material-icons text-primary" style="font-size: 48px;"><%= iconMap[propertyKey] || 'home' %></i>
+        </div>
+        <div>
+          <h5 class="mb-1 fw-semibold text-muted">Property Type</h5>
+          <h4 class="mb-0"><%= listing.propertyType %></h4>
+        </div>
+      </div>
+    </div>
+
+    <!-- Place Type -->
+    <div class="col-md-6 mb-4">
+      <div class="border rounded p-4 shadow-sm h-100 d-flex align-items-center">
+        <div class="me-3">
+          <i class="material-icons text-success" style="font-size: 48px;"><%= iconMap[placeKey] || 'home' %></i>
+        </div>
+        <div>
+          <h5 class="mb-1 fw-semibold text-muted">Place Type</h5>
+          <h4 class="mb-0"><%= listing.placeType %></h4>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ✅ Tags Section -->
+<% if (listing.tags && listing.tags.length > 0) { %>
+  <div class="container mt-3 col-md-10">
+    <h4 class="mb-3 fw-semibold">🏷 Tags</h4>
+    <% listing.tags.forEach(tag => { 
+         const tagKey = tag.toLowerCase();
+    %>
+      <span class="badge rounded-pill bg-secondary me-2 mb-2 d-inline-flex align-items-center">
+        <i class="material-icons me-1" style="font-size: 18px;"><%= iconMap[tagKey] || 'label' %></i>
+        <%= tag %>
+      </span>
+    <% }) %>
+  </div>
+<% } %>
+
+<div class="mt-5 offset-1">
+  <h5 class="mb-3 ">🛎️ Booking Options</h5>
+
+  <% if (listing.topPicks && listing.topPicks.length > 0) { %>
+    <div class="d-flex flex-wrap gap-2">
+      <% listing.topPicks.forEach(option => { %>
+        <span class="badge rounded-pill bg-light border text-dark d-flex align-items-center px-3 py-2">
+          <span class="material-symbols-outlined me-1" style="font-size: 22px;">
+            <% if (option === 'Instant Book') { %> bolt
+            <% } else if (option === 'Free Cancellation') { %> cancel
+            <% } else if (option === 'Pets Allowed') { %> pets
+            <% } else if (option === 'Eco-friendly Stay') { %> eco
+            <% } else { %> check_circle <% } %>
+          </span>
+          <%= option %>
+        </span>
+      <% }) %>
+    </div>
+  <% } else { %>
+    <p class="text-muted">No special booking options available.</p>
+  <% } %>
+</div>
+
+<hr class="w-25 offset-3 mt-5">
+
+<div class="row g-3 col-md-10 offset-1">
+  <div class="col-12">
+    <h3 class="mb-4">What this place offers</h3>
+
+    <div class="row">
+      <% shownAmenities.forEach(a => { 
+           const key = a.toLowerCase();
+      %>
+        <div class="col-6 d-flex mb-4 align-items-center">
+          <i class="material-icons me-2"><%= iconMap[key] || 'home' %></i>
+          <span><%= a %></span>
+        </div>
+      <% }) %>
+
+      <% 
+        const unavailable = ['Carbon monoxide alarm', 'Smoke alarm']; 
+      %>
+      <% unavailable.forEach(a => { 
+           const key = a.toLowerCase();
+      %>
+        <div class="col-6 d-flex mb-5 align-items-center text-muted">
+          <i class="material-icons me-2">cancel</i>
+          <span class="background-style-line-through">Unavailable: <%= a %></span>
+        </div>
+      <% }) %>
+    </div>
+  </div>
+
+  <!-- Property Type Section -->
+
+<!-- Show all button -->
+<div class="mt-2 col-md-10">
+<button id="openModalBtn" class="btn btn-outline-dark">
+  Show all <%= listing.amenities.length + unavailable.length %> amenities
+</button>
+</div>
+
+ <!-- Step 1: Show Availability Button -->
+  <button id="show-availability-btn">Book your Room</button>
+
+  <!-- Step 2: Sidebar Reservation Box (Initially Hidden) -->
+  <div id="reservation-section" class="sidebar-only">
+  <div class="reservation-box">
+    <div class="close-reserve-box" id="close-reserve-box">×</div>
+
+    <!-- ✅ Begin Form -->
+    <form action="/bookings/<%= listing._id %>/book" method="POST" id="booking-form">
+      <div class="price-section">
+        <span class="price">₹<%= finalPrice.toLocaleString("en-IN") %></span> for 1 night
+      </div>
+
+      <div class="date-guest-section">
+        <div class="date-picker">
+          <label>CHECK-IN</label>
+          <input type="text" id="checkin" placeholder="Add date" readonly />
+          <input type="hidden" name="checkIn" id="checkin-hidden" />
+        </div>
+        <div class="date-picker">
+          <label>CHECKOUT</label>
+          <input type="text" id="checkout" placeholder="Add date" readonly />
+          <input type="hidden" name="checkOut" id="checkout-hidden" />
+        </div>
+        <div class="guest-picker">
+          <label>GUESTS</label>
+          <select id="guests">
+            <option>1 guest</option>
+            <option>2 guests</option>
+            <option>3 guests</option>
+            <option>4 guests</option>
+          </select>
+          <input type="hidden" name="guests" id="guests-hidden" min="1" value="1"/>
+        </div>
+      </div>
+
+      <button type="submit" class="reserve-btn">Reserve</button>
+      <p class="note">You won't be charged yet</p>
+    </form>
+    <!-- ✅ End Form -->
+  </div>
+</div>
+  <!-- Step 3: Calendar Modal -->
+  <div id="calendar-modal" class="calendar-modal">
+    <div class="calendar-content">
+      <div id="calendar-container"></div>
+      <button id="close-calendar">Close</button>
+    </div>
+  </div>
+<div
+  class="modal fade"
+  id="allAmenitiesModal"
+  tabindex="-1"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content p-4">
+      <div class="modal-header">
+        <h5 class="modal-title">All Amenities</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+  <div class="row g-3">
+    <% listing.amenities.forEach(a => { 
+         const iconKey = a.toLowerCase();
+    %>
+      <div class="col-6 d-flex align-items-center available-amenity" title="<%= a %>">
+        <i class="material-icons me-2">
+          <%= iconMap[iconKey] || 'check_circle' %>
+        </i>
+        <span><%= a %></span>
+      </div>
+    <% }) %>
+
+    <% unavailable.forEach(a => { 
+         const iconKey = a.toLowerCase();
+    %>
+      <div class="col-6 d-flex align-items-center unavailable-amenity" title="<%= a %>">
+        <i class="material-icons me-2">cancel</i>
+        <span>Unavailable: <%= a %></span>
+      </div>
+    <% }) %>
+  </div>
+</div>
+  </div>
+  </div>
+</div>
+</div>
+
+<div class="rating-container mt-5">
+  <div class="rating-number">
+    <img src="/reviewImg1.jpg" alt="Laurel left" class="laurel-icon2" />
+    <span><%= averageRating.toFixed(2) %></span>
+    <img src="/reviewImg2(1)(1).jpg" alt="Laurel right" class="laurel-icon2" />
+  </div>
+  <h4>Guest favourite</h4>
+  <p>This home is in the <strong>top 10%</strong> of eligible listings <br/>based on ratings, reviews and reliability</p>
+</div>
+
+
+<!-- Map -->
+<div class="col-10 offset-1 mb-3 mt-5">
+  <h3>Here’s Where You’ll Stay</h3>
+  <div id="map" style="height: 400px"></div>
+</div>
+  <script src="https://unpkg.com/maplibre-gl@2.4.0/dist/maplibre-gl.js"></script>
+  <script src="../js/map.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+</div>
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  const openModalBtn = document.getElementById('openModalBtn');
+  const allAmenitiesModal = new bootstrap.Modal(document.getElementById('allAmenitiesModal'));
+  openModalBtn.addEventListener('click', () => allAmenitiesModal.show());
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/litepicker/dist/litepicker.js"></script>
+<script src="/js/show.js"></script>

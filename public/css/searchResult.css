@@ -1,0 +1,377 @@
+/* ===== General Reset & Base Styles ===== */
+body {
+  font-family: "Segoe UI", sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+button {
+  background: none;
+  border: none;
+  outline: none;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+/* ===== Grid & Card Layout ===== */
+.custom-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.listing-box {
+  width: calc(25% - 1rem);
+  min-width: 250px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+}
+
+.hover-card {
+  border: none;
+  border-radius: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  overflow: hidden;
+  cursor: pointer;
+  height: 100%;
+}
+
+.hover-card:hover {
+  transform: translateY(-6px);
+  opacity: 0.8;
+}
+
+.card-img-top-index {
+  width: 100%;
+  height: 255px;
+  object-fit: cover;
+  border-top-left-radius: 16px;
+  border-top-right-radius: 16px;
+  border-bottom: 1px solid #eee;
+}
+
+.card-body {
+  /* padding: 1rem; */
+  padding: 0 1rem 1rem 1rem;
+}
+
+.card-title {
+  font-size: 1.1rem;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+}
+
+.custom-price-text {
+  font-size: 1rem;
+  font-weight: 400;
+  margin-bottom: 0.25rem;
+}
+
+.stretched-link {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  text-indent: -9999px;
+}
+
+/* ===== Filter Box ===== */
+.filter-box {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 45px;
+  padding: 15px 20px;
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  background-color: white;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  margin: 20px;
+  transition: all 0.3s ease;
+  line-height: 1;
+}
+
+.filter-box:hover {
+  background-color: #f7f7f7;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border-color: #bbb;
+  color: black;
+}
+
+.filter-box:hover .filter-line {
+  background-color: #000;
+}
+
+.filter-icon {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.filter-line {
+  width: 14px;
+  height: 2px;
+  background-color: #333;
+  border-radius: 1px;
+}
+
+.filter-text {
+  white-space: nowrap;
+}
+
+.filter-text span {
+  display: inline;
+}
+
+/* ===== Slider ===== */
+.slider-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-left: 5px;
+}
+
+.slider-wrapper {
+  width: 70%;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  white-space: nowrap;
+  justify-content: flex-start;
+  padding: 10px 10px 10px 0;
+  margin-left: 10px;
+  display: flex;
+  gap: 20px;
+}
+
+.slider-wrapper::-webkit-scrollbar {
+  display: none;
+}
+
+.slide.filter {
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 0 8px;
+  opacity: 0.7;
+  transition: opacity 0.2s ease;
+  cursor: pointer;
+  font-size: 0.8rem;
+}
+
+.slide.filter:hover {
+  opacity: 1;
+}
+
+.slide.filter p {
+  font-size: 0.8rem;
+  margin-top: 4px;
+  margin-bottom: 6px;
+}
+
+.slider-button {
+  background: none;
+  border: 1px solid black;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 14px;
+  margin: 0 5px 0 0;
+}
+.slider-buttons-sr-2 {
+  margin-left: 6px;
+}
+.slider-button:hover {
+  background-color: #f7f7f7;
+}
+
+/* ===== Modal ===== */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  overflow: hidden;
+}
+
+.modal-content {
+  position: relative;
+  background-color: white;
+  max-width: 600px;
+  width: 90%;
+  height: 80vh;
+  margin: 5% auto;
+  padding: 25px;
+  border-radius: 25px !important;
+  overflow-y: auto;
+  animation: fadeIn 0.3s ease;
+}
+
+.modal-content::-webkit-scrollbar {
+  display: none;
+}
+
+@keyframes fadeIn {
+  from {
+    transform: translateY(30px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.modal-section {
+  margin-bottom: 20px;
+}
+
+.modal-section h4 {
+  margin: 10px 0;
+}
+
+.modal-section label {
+  display: block;
+  margin: 5px 0;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.clear-btn,
+.apply-btn {
+  padding: 10px 16px;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.clear-btn {
+  background-color: #eee;
+}
+
+.apply-btn {
+  background-color: #000;
+  color: white;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 992px) {
+  .listing-box {
+    width: calc(33.33% - 1rem);
+  }
+}
+
+@media (max-width: 768px) {
+  .listing-box {
+    width: calc(50% - 1rem);
+  }
+}
+
+@media (max-width: 600px) {
+  .modal-content {
+    height: 100%;
+    border-radius: 0;
+    margin: 0;
+  }
+
+  .two-columns {
+    flex-direction: column;
+  }
+
+  .listing-box {
+    width: 100%;
+  }
+}
+
+/* ===== Dark Mode Support ===== */
+@media (prefers-color-scheme: dark) {
+  .modal-content {
+    background-color: #1e1e1e;
+    color: #fff;
+  }
+
+  .filter-box {
+    background: #2a2a2a;
+    color: white;
+    border-color: #444;
+  }
+
+  .filter-line {
+    background: #fff;
+  }
+}
+/* search with magnifying glass */
+.airbnb-search-heading {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 22px;
+  font-weight: 600;
+  color: #222;
+  margin-bottom: 15px;
+  font-style: italic;
+}
+
+.airbnb-search-heading .fa-magnifying-glass {
+  font-size: 18px;
+  color: #888;
+}
+
+.search-label {
+  color: #333;
+}
+
+.city-badge {
+  padding: 3px 10px;
+  border-radius: 6px;
+  background-color: #f9f9f9;
+  color: #444;
+  font-weight: 500;
+}
+
+.no-listings {
+  font-size: 17px;
+  color: #555;
+  margin-top: 10px;
+}
+.italic-city {
+  font-style: italic;
+}
+
+/*no rooms are avalable*/
+.text-muted {
+  font-size: 18px;
+}
+.text-muted i {
+  font-size: 22px;
+  font-style: italic !important;
+  text-decoration: underline;
+}
+.fa-solid {
+  text-decoration: none !important;
+  font-size: 1rem !important;
+}

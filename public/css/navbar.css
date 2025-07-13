@@ -1,0 +1,366 @@
+.airbnb-outline-btn {
+  background-color: white;
+  color: #ff385c;
+  border: 1px solid #ff385c;
+  border-radius: 25px;
+  padding: 6px 16px;
+  font-weight: 500;
+  font-size: 14px;
+  transition: all 0.25s ease;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.airbnb-outline-btn i {
+  font-size: 14px;
+}
+.airbnb-outline-btn:hover {
+  background-color: #ff385c;
+  color: white;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.airbnb-outline-btn:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(255, 56, 92, 0.4);
+}
+#btn-search-input {
+  padding: 0.5rem 5.5rem 0.5rem 4rem;
+  font-size: 16px;
+  border-radius: 25px;
+  background-color: white;
+}
+/* Common styles for login, signup, logout links */
+.auth-btn {
+  font-size: 14px;
+  font-weight: 700 !important;
+  color: #222;
+  background: transparent;
+  border: none;
+  padding: 6px 12px;
+  cursor: pointer;
+  border-radius: 9999px;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  width: fit-content;
+}
+
+/* Hover effect */
+.auth-btn:hover {
+  background-color: #ff385c;
+  color: white;
+}
+
+/* Optional: separate styles for sign up, sign in & log out button to stand out */
+.auth-btn.signup {
+  border: 1px solid #ff385c;
+  color: #ff385c;
+}
+.auth-btn.signup:hover {
+  background-color: #ff385c;
+  color: white;
+}
+/* 3 line sign up */
+.menu-container {
+  position: relative;
+  display: inline-block;
+}
+#menu-toggle {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+#menu-toggle .bar {
+  width: 25px;
+  height: 3px;
+  background-color: #222;
+  border-radius: 2px;
+  transition: all 0.3s ease;
+}
+.auth-dropdown {
+  position: absolute;
+  top: 45px;
+  right: 0;
+  background: #fff;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  padding: 12px 20px;
+  display: none;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 200px;
+  z-index: 100;
+  align-items: flex-start;
+}
+.auth-btn {
+  font-weight: 600;
+  color: #222;
+  border-radius: 9999px;
+  padding: 8px 24px !important;
+  cursor: pointer;
+  border: none;
+  background: transparent;
+  transition: background 0.3s ease, color 0.3s ease;
+  text-decoration: none;
+  display: block;
+}
+
+.auth-dropdown.show {
+  display: flex;
+}
+/* add your home */
+.add-home-btn {
+  font-weight: 600;
+  color: #222;
+  padding: 10px 20px;
+  border-radius: 9999px;
+  border: 1px solid #ddd;
+  background-color: #fff;
+  text-decoration: none;
+  transition: all 0.25s ease;
+  font-size: 14px;
+  line-height: 1.2;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-right: 10px;
+}
+.add-home-btn:hover {
+  background-color: #d9d9d8;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border-color: #ccc;
+}
+.add-home-btn:focus {
+  background-color: #fff;
+}
+
+#btn-search-input {
+  padding-right: 2.5rem;
+}
+
+#toggleDropdown {
+  right: 1rem;
+  font-size: 0.9rem;
+  color: #555;
+}
+
+/* cross mark in the search panel */
+select:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 6px rgba(0, 123, 255, 0.4);
+}
+
+#dropdownPanel select.form-select {
+  width: 100%;
+  padding: 12px 16px;
+  font-size: 15px;
+  border: 1.8px solid #ddd;
+  border-radius: 8px;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+  background-color: #fff;
+  background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20width%3D%2212%22%20height%3D%228%22%20viewBox%3D%220%200%2012%208%22%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%3E%3Cpath%20d%3D%22M1%201l5%205%205-5%22%20stroke%3D%22%23777%22%20stroke-width%3D%222%22%20fill%3D%22none%22%20fill-rule%3D%22evenodd%22/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 12px 8px;
+}
+
+#dropdownPanel select.form-select:hover {
+  border-color: #007bff;
+}
+
+#dropdownPanel select.form-select:focus {
+  border-color: #007bff;
+  outline: none;
+  box-shadow: 0 0 8px rgba(0, 123, 255, 0.4);
+}
+
+#dropdownPanel select.form-select:disabled {
+  background-color: #f9f9f9;
+  cursor: not-allowed;
+}
+
+/* searchBar design */
+.custom-focus:focus {
+  border-color: #0d6efd !important;
+  box-shadow: 0 0 0 0.1rem rgba(13, 110, 253, 0.25);
+}
+
+/*blank search*/
+.input-error {
+  border: 2px solid red !important;
+  outline: none;
+}
+
+/*search option offer*/
+.suggestion-item:hover {
+  background-color: #f0f0f0;
+}
+
+/* search destinations 23-06-2025 23:16*/
+#suggestion-box {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  max-height: 320px;
+  overflow-y: auto;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  margin-top: 8px;
+  padding: 8px 0;
+  list-style: none;
+  z-index: 1200;
+  font-family: "Circular", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  user-select: none;
+  font-size: 1rem;
+  min-width: 300px;
+}
+
+/* Each suggestion item */
+#suggestion-box li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 20px;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: background-color 0.25s ease, box-shadow 0.25s ease;
+  color: #222;
+  border-bottom: 1px solid #eee;
+}
+
+/* Remove border from last item */
+#suggestion-box li:last-child {
+  border-bottom: none;
+}
+
+/* Thumbnail image on left side */
+#suggestion-box li img {
+  width: 56px;
+  height: 42px;
+  border-radius: 8px;
+  object-fit: cover;
+  flex-shrink: 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+}
+
+/* Text container for location name and optional subtitle */
+#suggestion-box li .suggestion-text {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow: hidden;
+}
+
+#suggestion-box li .suggestion-text .location-name {
+  font-weight: 600;
+  font-size: 1rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+#suggestion-box li .suggestion-text .location-subtitle {
+  font-size: 0.85rem;
+  color: #666;
+  margin-top: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Hover and active states */
+#suggestion-box li:hover,
+#suggestion-box li.active {
+  background-color: #f7f7f7;
+  box-shadow: inset 3px 0 0 #ff385c;
+  color: #000;
+}
+
+/* Scrollbar style */
+#suggestion-box::-webkit-scrollbar {
+  width: 8px;
+}
+
+#suggestion-box::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 8px;
+}
+
+#suggestion-box::-webkit-scrollbar-thumb {
+  background: #ff385c;
+  border-radius: 8px;
+}
+
+#suggestion-box::-webkit-scrollbar-thumb:hover {
+  background: #e03150;
+}
+
+#suggestion-box.show {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+/* result box, close or hide. */
+.search-results-box {
+  display: none;
+  position: absolute;
+  background: #fff;
+  border: 1px solid #ccc;
+  z-index: 100;
+  width: 300px;
+}
+
+.search-results-box.active {
+  display: block;
+}
+
+#btn-search-input {
+  position: relative;
+  z-index: 1;
+
+  background-color: white;
+  border: 1px solid #ddd;
+  padding: 12px 20px;
+  border-radius: 999px;
+  width: 100%;
+  max-width: 320px;
+  font-size: 16px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+
+  background-image: radial-gradient(
+    circle at center,
+    rgba(255, 255, 255, 0.9) 80%,
+    transparent 99%
+  );
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 0% 0%;
+
+  transition: background-size 0.8s ease;
+  overflow: hidden;
+}
+
+#btn-search-input:hover {
+  background-color: #e5e2e2;
+}
+
+#btn-search-input:focus {
+  outline: none !important;
+  border: 1px solid #aaa;
+  box-shadow: 0 0 0 2px rgba(0, 132, 255, 0.2) !important;
+
+  background-size: 300% 300%;
+}

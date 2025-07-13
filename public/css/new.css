@@ -1,0 +1,181 @@
+ #enumOptionsWrapper {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1050;
+    display: none;
+    max-height: 95vh;
+    overflow-y: auto;
+    width: 90vw;
+    max-width: 520px;
+  }
+
+  #overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100vw;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1040;
+    display: none;
+  }
+
+  .container {
+    max-width: 550px;
+    margin: 0 auto;
+    background-color: #fff;
+    border-radius: 24px;
+    padding: 35px;
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
+  }
+  .progress-bar {
+    height: 5px;
+    background-color: #e0e0e0;
+    border-radius: 3px;
+    overflow: hidden;
+    margin-bottom: 32px;
+  }
+  .progress-bar-fill {
+    height: 100%;
+    background-color: #4a90e2;
+    border-radius: 3px;
+    width: 0%;
+    transition: width 0.3s ease;
+  }
+  .step {
+    border: 1px solid #ccc;
+    border-radius: 16px;
+    padding: 24px;
+    max-height: 370px;
+    overflow-y: auto;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  }
+  .hidden {
+    display: none;
+  }
+  label.section-title {
+    font-weight: 900;
+    font-size: 18px;
+    margin-bottom: 16px;
+    display: block;
+    color: #484848;
+  }
+  .grid-2 {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+  .grid-3 {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+  .btn-select {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: end;
+    height: 100px;
+    padding: 12px;
+    border-radius: 12px;
+    cursor: pointer;
+    font-weight: 600;
+    border: 1px solid #d9d9d8;
+    text-align: left;
+    user-select: none;
+    transition: all 0.2s ease;
+    background-color: #fff;
+    color: #000;
+  }
+  .btn-select:hover:not(.selected) {
+    background-color: #e6f0ff;
+  }
+  .btn-select.selected {
+    background-color: #dddddc;
+    color: #000;
+    border: 2px solid black;
+  }
+  .nav-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 40px;
+  }
+  button.nav-btn {
+    padding: 10px 20px;
+    border-radius: 16px;
+    background-color: #4a90e2;
+    color: #fff;
+    border: 1px solid transparent;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 16px;
+    user-select: none;
+    transition: background-color 0.3s ease, box-shadow 0.2s ease;
+  }
+  button.nav-btn:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+  button.nav-btn:hover:not(:disabled) {
+    background-color: #d3d3d3;
+    color: #000;
+  }
+  button.nav-btn:active:not(:disabled) {
+    background-color: #a0a0a0;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
+    color: #000;
+  }
+  .btn-select .btn_icon {
+    font-size: 3rem;
+  }
+  .material-symbols-outlined {
+    font-size: 32px;
+    margin-bottom: 6px;
+  }
+  .label-text {
+    font-size: 14px;
+  }
+  .grid-3 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+  #placeTypes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px; /* space between items */
+    margin-bottom: 16px;
+    justify-content: space-evenly;
+  }
+  #enumOptionsWrapper::-webkit-scrollbar {
+    width: 6px;
+  }
+  #enumOptionsWrapper::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 10px;
+  }
+  #enumOptionsWrapper:focus {
+    outline: none;
+  }
+  .step {
+    transition: opacity 0.3s ease;
+  }
+  .step.hidden {
+    opacity: 0;
+    pointer-events: none;
+    position: absolute;
+  }
+
+  #enumOptionsWrapper.hidden,
+#overlay.hidden {
+  display: none !important;
+}
+
+.addMoreOption {
+  font-size: 0.8rem;
+}

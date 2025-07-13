@@ -1,0 +1,365 @@
+<% layout("/layouts/boilerplate.ejs")%>
+<!-- Font Awesome CDN (v6) -->
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+  integrity="sha512-papgG2+5Mg3oErPY0P7uNAljcjIVsAZ8qFZL8Akyukv8nAfF6SREvVSCq47gRM7rxMnhM1HJ3z6tFjzVvZkA6A=="
+  crossorigin="anonymous"
+  referrerpolicy="no-referrer"
+/>
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+
+<style>
+  
+  .pagination_idx {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    user-select: none;
+    margin-top: 15px;
+    margin-bottom: 15px;
+  }
+
+  .pagination_idx button {
+    cursor: pointer;
+    padding: 8px 12px;
+    border-radius: 50%;
+    border: none;
+    background: transparent;
+    font-size: 16px;
+    color: #333;
+    transition: background 0.3s, color 0.3s;
+  }
+
+  .page-btn:hover,
+  .arrow-btn:hover {
+    background: #eee;
+  }
+
+  .pagination_idx button.active {
+    background: #000;
+    color: white;
+    font-weight: bold;
+    cursor: default;
+  }
+
+  .pagination_idx button:hover:not(.active) {
+    background: #ddd;
+  }
+
+  .pagination_idx .ellipsis {
+    font-size: 18px;
+    color: #888;
+    user-select: none;
+    pointer-events: none;
+  }
+.custom-switch-search {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 0.25rem;
+  padding: 10px 2px;
+  border: 1px solid #ccc;      
+  border-radius: 12px;          
+  background-color: #f9f9f9;   
+  width: max-content;          
+  margin-left: auto;            
+}
+
+/* Label styles */
+.custom-switch-search .custom-label {
+  white-space: nowrap;
+  font-weight: 500;
+  font-size: 0.9rem;
+  color: #333;
+  user-select: none; 
+}
+
+/* Hide default checkbox */
+.custom-switch-search .custom-input {
+  position: relative;
+  width: 40px;
+  height: 20px;
+  -webkit-appearance: none;
+  background: #ccc;
+  outline: none;
+  border-radius: 20px;
+  transition: background 0.3s;
+  cursor: pointer;
+}
+
+/* Circle inside toggle */
+.custom-switch-search .custom-input::before {
+  content: '';
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  top: 1px;
+  left: 1px;
+  background: white;
+  transition: 0.3s;
+}
+
+/* Checked state */
+.custom-switch-search .custom-input:checked {
+  background: #000; /* green */
+}
+
+.custom-switch-search .custom-input:checked::before {
+  transform: translateX(20px);
+}
+
+.save-btn {
+  background-color: transparent !important;
+  border: none;
+  font-size: 1.3rem;
+  margin: 0 !important;
+  padding-top: 0 !important;
+}
+
+</style>
+
+<script>
+  // All listings data passed from server side
+  const allListings = <%- JSON.stringify(listings) %>;
+
+  // Filter tag and city from server if present
+  const tag = "<%= typeof tag !== 'undefined' ? tag : '' %>";
+  const city = "<%= typeof city !== 'undefined' ? city : '' %>";
+</script>
+<script>
+  const currUserId = "<%= currUser ? currUser._id : '' %>";
+</script>
+<script>
+  const listings = <%- JSON.stringify(listings) %>;
+  const currUser = <%- JSON.stringify(currUser) %>;
+</script>
+
+
+<body class="navbar_space">
+  <div class="container-fluid index_budy mt-3">
+    <% if (!isSearchPage) { %>
+    <!-- Slider filter buttons -->
+    <div class="slider-container mb-2">
+      <!-- Slider left -->
+      <div class="slider-buttons">
+        <button class="slider-button" onclick="scrollSlider(-200)">
+          <i class="fa-solid fa-chevron-left"></i>
+        </button>
+      </div>
+
+      <!-- Slider content -->
+      <div class="slider-wrapper" id="sliderWrapper">
+        <% const tagIcons = { "All": "fa-list", "Trending": "fa-fire", "Beach":
+        "fa-umbrella-beach", "Iconic Cities": "fa-mountain-city", "Mountains":
+        "fa-mountain", "Rooms": "fa-bed", "Amazing Pools": "fa-person-swimming",
+        "Camping": "fa-campground", "Lake Front": "fa-water", "Castles":
+        "fa-fort-awesome", "Farms": "fa-cow", "Tiny House": "fa-tent",
+        "Cable Car": "fa-cable-car", "Hotels": "fa-hotel", "Worship":
+        "fa-place-of-worship", "Domes": "fa-igloo", "Boats": "fa-ship" }; const
+        tags = Object.keys(tagIcons); %> <% tags.forEach(tag => { %>
+        <div class="slide filter" data-tag="<%= tag %>">
+          <div>
+            <i
+              class="<%= (tag === 'Castles' ? 'fa-brands' : 'fa-solid') + ' ' + tagIcons[tag] %>"
+            ></i>
+          </div>
+          <p><%= tag %></p>
+        </div>
+        <% }); %>
+      </div>
+
+      <!-- Slider right -->
+      <div class="slider-buttons slider-buttons-i-2">
+        <button class="slider-button" onclick="scrollSlider(200)">
+          <i class="fa-solid fa-chevron-right"></i>
+        </button>
+      </div>
+
+      <!-- Filter Button -->
+      <div class="filter-box" id="filterBox">
+        <div class="filter-icon">
+          <div class="filter-line"></div>
+          <div class="filter-line"></div>
+          <div class="filter-line"></div>
+        </div>
+        <span class="filter-text" id="filterCount">Filters</span>
+      </div>
+
+      <!-- Filter Modal -->
+      <div id="filterModal" class="modal">
+        <div class="modal-content">
+          <span class="close-btn" id="closeModal">&times;</span>
+          <h2>Filters</h2>
+
+          <div class="modal-section two-columns">
+            <div class="filter-group">
+              <h4>Property Type</h4>
+              <div class="filter-boxes" id="propertyTypeFilters"></div>
+            </div>
+            <div class="filter-group">
+              <h4>Type of place</h4>
+              <div class="filter-boxes" id="placeTypeFilters"></div>
+            </div>
+            <div class="filter-group">
+              <h4>Amenities</h4>
+              <div class="filter-boxes" id="amenitiesFilters"></div>
+            </div>
+            <div class="filter-group">
+              <h4>Price Range (₹)</h4>
+              <div class="price-header">
+                <div class="price-label">
+                  Min
+                  <div class="price-box">₹<span id="minVal">2500</span></div>
+                </div>
+                <div class="price-label">
+                  Max
+                  <div class="price-box">₹<span id="maxVal">15000</span></div>
+                </div>
+              </div>
+              <div class="range-slider">
+                <input
+                  type="range"
+                  id="minPrice"
+                  min="0"
+                  max="20000"
+                  step="100"
+                  value="700"
+                />
+                <input
+                  type="range"
+                  id="maxPrice"
+                  min="0"
+                  max="20000"
+                  step="100"
+                  value="15000"
+                />
+                <div class="slider-track"></div>
+              </div>
+            </div>
+            <div class="filter-group" id="topPicksFilters">
+              <h4>Top Picks</h4>
+              <label
+                ><input type="checkbox" /><span class="material-icons"
+                  >bolt</span
+                ><span>Instant Book</span></label
+              >
+              <label
+                ><input type="checkbox" /><span class="material-icons"
+                  >cancel</span
+                ><span>Free Cancellation</span></label
+              >
+              <label
+                ><input type="checkbox" /><span class="material-icons"
+                  >pets</span
+                ><span>Pets Allowed</span></label
+              >
+              <label
+                ><input type="checkbox" /><span class="material-icons">eco</span
+                ><span>Eco-friendly Stay</span></label
+              >
+            </div>
+          </div>
+          <div class="modal-actions">
+            <button class="clear-btn" id="clearFilters">Clear All</button>
+            <button class="apply-btn" id="applyFilters">Apply Filters</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- GST Toggle -->
+      <div class="custom-switch mt-1">
+        <label class="custom-label" for="gstToggle"
+          >Display total before taxes</label
+        >
+        <input class="custom-input" type="checkbox" id="gstToggle" />
+      </div>
+    </div>
+
+    <% } %>
+<% if (isSearchPage) { %>
+  <div class="custom-switch-search">
+  <label class="custom-label" for="gstToggle">Display total before taxes</label>
+  <input class="custom-input" type="checkbox" id="gstToggle" />
+</div>
+
+<% } %>
+
+
+
+<!-- Listings Grid -->
+<div id="listingContainer" class="row row-cols-lg-4 row-cols-md-2 row-cols-sm-1 g-3 mt-1">
+  <% if (listings.length === 0) { %>
+    <div class="col text-center">
+      <p class="text-muted">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        Currently no rooms are available 
+        <% if (tag && city) { %> for "<%= tag %>" in "<%= city %>" 
+        <% } else if (city) { %> in "<%= city %>" 
+        <% } else if (tag) { %> for "<%= tag %>" 
+        <% } %>
+      </p>
+    </div>
+    
+  <% } else { %>
+    
+    <% for (let listing of listings) { 
+         let currUserId = currUser?._id?.toString();
+         let savedByList = Array.isArray(listing.savedBy) ? listing.savedBy : [];
+         let isSavedFlag = savedByList.some(user => user.toString() === currUserId);
+    %>
+      <div class="col">
+        <div class="card h-100 hover-card position-relative">
+
+          <!-- ❤️ Save Icon (only if user is logged in) -->
+       <% if (currUser) { 
+  const savedBy = Array.isArray(listing.savedBy) ? listing.savedBy : [];
+  const isSaved = savedBy.includes(currUser._id.toString());
+%>
+  <button
+    type="button"
+    class="save-btn btn btn-light rounded-circle shadow-sm p-2 position-absolute top-0 end-0 m-2"
+    data-id="<%= listing._id %>">
+    <i class="<%= isSaved ? 'fas fa-heart text-danger' : 'far fa-heart text-dark' %>"></i>
+  </button>
+<% } %>
+
+
+          <!-- Listing link & body -->
+          <a href="/listings/<%= listing._id %>" class="touch text-decoration-none text-dark">
+            <img src="<%= listing.image.url %>" class="card-img-top-index" alt="listing" />
+            <div class="card-body d-flex flex-column justify-content-between">
+              <h6 class="card-title"><%= listing.title %></h6>
+              <p class="card-text">
+                ₹<%= listing.price.toLocaleString('en-IN') %> /night
+              </p>
+            </div>
+          </a>
+
+        </div>
+      </div>
+      
+    <% } %>
+  <% } %>
+</div>
+
+
+
+    <% console.log('currUser:', currUser); %>
+
+    <!-- Pagination -->
+    <div
+      id="pagination"
+      class="d-flex justify-content-center mt-4 pagination-fixed pagination_idx"
+    ></div>
+
+    <!-- External JS -->
+    <script src="/js/indexejs.js"></script>
+  </div>
+
+</body>
