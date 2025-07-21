@@ -1,11 +1,11 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const Booking = require('../models/booking.js');
-const Listing = require('../models/listing.js');
-const { isLoggedIn } = require('../middleware'); // Optional auth check
+const Booking = require("../models/booking.js");
+const Listing = require("../models/listing.js");
+const { isLoggedIn } = require("../middleware");
 
 // POST: Create a booking
-router.post('/:listingId/book', isLoggedIn, async (req, res) => {
+router.post("/:listingId/book", isLoggedIn, async (req, res) => {
   const { listingId } = req.params;
   const { checkIn, checkOut, guests } = req.body;
 
@@ -21,107 +21,69 @@ router.post('/:listingId/book', isLoggedIn, async (req, res) => {
       user: req.user._id,
       checkIn: checkInIST,
       checkOut: checkOutIST,
-      guests: parseInt(guests)
+      guests: parseInt(guests),
     });
 
     await newBooking.save();
-    console.log('📅 Booking saved:', newBooking);
-req.flash("success", "Your order booked!");
+    req.flash("success", "Your order booked!");
     res.redirect(`/listings/${listingId}?booking=success`);
   } catch (err) {
-    console.error('❌ Booking error:', err);
     res.redirect(`/listings/${listingId}?booking=error`);
   }
 });
 
-//to show all the bookings
-// router.get('/', isLoggedIn, async (req, res) => {
-//   try {
-//     const bookings = await Booking.find({ user: req.user._id }).populate('listing');
-
-//     const bookingsWithFormattedDates = bookings.map(b => {
-//       const options = { timeZone: 'Asia/Kolkata', year: 'numeric', month: 'short', day: 'numeric' };
-//       return {
-//         ...b.toObject(),
-//         checkInFormatted: b.checkIn.toLocaleDateString('en-IN', options),
-//         checkOutFormatted: b.checkOut.toLocaleDateString('en-IN', options)
-//       };
-//     });
-
-//     res.render('listings/bookings', { bookings: bookingsWithFormattedDates });
-//   } catch (err) {
-//     console.error(err);
-//     res.redirect('/');
-//   }
-// });
-// router.get('/', isLoggedIn, async (req, res) => {
-//   try {
-//     const bookings = await Booking.find({ user: req.user._id }).populate('listing');
-
-//     const bookingsWithFormattedDates = bookings.map(b => {
-//       const options = { timeZone: 'Asia/Kolkata', year: 'numeric', month: 'short', day: 'numeric' };
-//       return {
-//         ...b.toObject(),
-//         checkInFormatted: b.checkIn.toLocaleDateString('en-IN', options),
-//         checkOutFormatted: b.checkOut.toLocaleDateString('en-IN', options)
-//       };
-//     });
-
-//     const fromListing = req.get('referer');
-
-//     res.render('listings/bookings', { bookings: bookingsWithFormattedDates, fromListing });
-//   } catch (err) {
-//     console.error(err);
-//     res.redirect('/');
-//   }
-// });
-router.get('/', isLoggedIn, async (req, res) => {
+router.get("/", isLoggedIn, async (req, res) => {
   try {
     const bookings = await Booking.find({ user: req.user._id })
       .populate({
-        path: 'listing',
-        populate: { path: 'owner' }
+        path: "listing",
+        populate: { path: "owner" },
       })
-       .populate('user');
+      .populate("user");
 
-    const bookingsWithFormattedDates = bookings.map(b => {
-      const options = { timeZone: 'Asia/Kolkata', year: 'numeric', month: 'short', day: 'numeric' };
+    const bookingsWithFormattedDates = bookings.map((b) => {
+      const options = {
+        timeZone: "Asia/Kolkata",
+        year: "numeric",
+        month: "short",
+        day: "numeric",
+      };
       return {
         ...b.toObject(),
-        checkInFormatted: b.checkIn.toLocaleDateString('en-IN', options),
-        checkOutFormatted: b.checkOut.toLocaleDateString('en-IN', options)
+        checkInFormatted: b.checkIn.toLocaleDateString("en-IN", options),
+        checkOutFormatted: b.checkOut.toLocaleDateString("en-IN", options),
       };
     });
 
     // Get previous page URL from header
-    const fromListing = req.get('referer');
+    const fromListing = req.get("referer");
 
-    res.render('listings/bookings', { bookings: bookingsWithFormattedDates, fromListing });
+    res.render("listings/bookings", {
+      bookings: bookingsWithFormattedDates,
+      fromListing,
+    });
   } catch (err) {
-    console.error(err);
-    res.redirect('/');
+    res.redirect("/");
   }
 });
 
-router.delete('/:bookingId', isLoggedIn, async (req, res) => {
+router.delete("/:bookingId", isLoggedIn, async (req, res) => {
   const { bookingId } = req.params;
 
   try {
-    // Optional: Only allow users to delete their own bookings
     const booking = await Booking.findOneAndDelete({
       _id: bookingId,
-      user: req.user._id
+      user: req.user._id,
     });
 
     if (!booking) {
-      return res.status(403).send('Unauthorized or booking not found');
+      return res.status(403).send("Unauthorized or booking not found");
     }
-req.flash("success", "Your order was deleted!");
+    req.flash("success", "Your order was deleted!");
 
-    res.redirect('/bookings');
+    res.redirect("/bookings");
   } catch (err) {
-    console.error('❌ Delete error:', err);
-    res.redirect('/bookings');
+    res.redirect("/bookings");
   }
 });
 

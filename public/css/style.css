@@ -19,6 +19,12 @@ main {
   padding-right: 80px !important;
 }
 
+@media (max-width: 576px) {
+  .index_budy {
+    padding: 5px !important;
+  }
+}
+
 footer {
   background-color: #f5f5f5;
   text-align: center;
@@ -37,10 +43,10 @@ footer {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 1rem;
+  gap: 0.6rem;
 }
 .f-info-socials i {
-  font-size: 1.2rem;
+  font-size: 1.3rem;
   margin-right: 1rem;
 }
 .f-info {
@@ -61,7 +67,6 @@ footer {
   height: 250px;
   object-fit: cover;
   border-bottom: 1px solid #eee;
-
   border-top-left-radius: 15px;
   border-top-right-radius: 15px;
   border-bottom-left-radius: 15px;

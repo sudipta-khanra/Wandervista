@@ -4,8 +4,7 @@ module.exports.listingSchema = Joi.object({
   listing: Joi.object({
     title: Joi.string().required(),
     description: Joi.string().required(),
-    // image: Joi.string().allow("", null),
-    // image: Joi.string().optional().allow("", null),
+
     image: Joi.object({
       url: Joi.string().uri().allow("", null).optional(),
     }).optional(),
@@ -14,7 +13,6 @@ module.exports.listingSchema = Joi.object({
     location: Joi.string().required(),
     country: Joi.string().required(),
 
-    // ✅ Add these missing fields:
     propertyType: Joi.string()
       .valid("Apartment", "House", "Villa", "Guesthouse", "Hotel")
       .required(),

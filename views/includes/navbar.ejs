@@ -35,12 +35,11 @@
   #suggestion-box li {
     cursor: pointer;
   }
-  /* Container styling if needed */
 .wandervista a {
   font-family: 'Nunito', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   font-weight: 700;
   font-size: 1.3rem;
-  color: #ff385c; /* Airbnb pink */
+  color: #ff385c; 
   display: flex;
   align-items: center;
   gap: 0.4rem;
@@ -79,8 +78,6 @@
 .bookings:hover {
   color: #fff;
   background-color: #ff385c;
-  /* transform: scale(1.05);  */
-  /* padding: 0.5rem 0.8rem;    */
   cursor: pointer;       
 }
 .favorites-link {
@@ -144,7 +141,6 @@
 
 
 
-    <!-- Keep dropdown absolutely positioned but visually below the form -->
     <div id="dropdownPanel"
          class="border p-3 bg-white shadow rounded position-absolute end-0"
          style="display: none; z-index: 1000; min-width: 250px; top: 100%;">
@@ -210,3 +206,34 @@
 
 
 <script src="./utils/fuse.js"></script>
+<script>
+  document.getElementById("menu-toggle").addEventListener("click", function () {
+    const dropdown = document.getElementById("auth-dropdown");
+    dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
+  });
+</script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const toggle = document.getElementById("userDropdownToggle");
+    const menu = document.getElementById("userDropdownMenu");
+
+    function isMobile() {
+      return window.innerWidth <= 767;
+    }
+
+    if (toggle && menu) {
+      toggle.addEventListener("click", function () {
+        if (isMobile()) {
+          menu.style.display = menu.style.display === "block" ? "none" : "block";
+        }
+      });
+
+      document.addEventListener("click", function (e) {
+        if (isMobile() && !toggle.contains(e.target) && !menu.contains(e.target)) {
+          menu.style.display = "none";
+        }
+      });
+    }
+  });
+</script>

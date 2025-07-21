@@ -1,26 +1,20 @@
 function bindSaveButtons() {
   const buttons = document.querySelectorAll(".save-btn");
   console.log("✅ Binding Save Buttons:", buttons.length);
-
   buttons.forEach((button) => {
     button.addEventListener("click", async (e) => {
       e.preventDefault();
-
       const listingId = button.getAttribute("data-id");
       const icon = button.querySelector("i");
       if (!icon) return;
-
       try {
         const res = await fetch(`/listings/${listingId}/save`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
         });
-
         const result = await res.json();
         console.log("💾 Toggle result:", result);
-
         if (!result.success) return;
-
         if (result.saved) {
           icon.classList.remove("fa-regular", "far", "text-dark");
           icon.classList.add("fa-solid", "fas", "text-danger");
@@ -34,23 +28,19 @@ function bindSaveButtons() {
     });
   });
 }
-
 document.addEventListener("DOMContentLoaded", () => {
   bindSaveButtons();
 });
-
 // GST Toggle
 function bindSaveButtons() {
   const buttons = document.querySelectorAll(".save-btn");
   console.log("💾 Re-binding Save Buttons:", buttons.length);
-
   buttons.forEach((button) => {
     button.addEventListener("click", async (e) => {
       e.preventDefault();
       const listingId = button.getAttribute("data-id");
       const icon = button.querySelector("i");
       if (!icon) return;
-
       try {
         const res = await fetch(`/listings/${listingId}/save`, {
           method: "POST",
@@ -58,7 +48,6 @@ function bindSaveButtons() {
             "Content-Type": "application/json",
           },
         });
-
         const result = await res.json();
         if (result.saved) {
           icon.classList.remove("fa-regular", "text-dark", "far");
@@ -73,7 +62,6 @@ function bindSaveButtons() {
     });
   });
 }
-
 function updatePricesWithGST() {
   const gstToggle = document.getElementById("gstToggle");
   const prices = document.querySelectorAll(".listing-price");
@@ -184,7 +172,6 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!container) return;
     // ✅ Clear previous items (important to prevent duplicates)
     container.innerHTML = "";
-    // ✅ Optional: Prevent duplicates in case data has repetition
     const seen = new Set();
     data.forEach(({ icon, label }) => {
       if (seen.has(label)) return;
@@ -242,18 +229,15 @@ document.addEventListener("DOMContentLoaded", () => {
     .getElementById("clearFilters")
     .addEventListener("click", clearAllFilters);
   updateFilterCounts();
-
   document.querySelectorAll(".slide.filter").forEach((filterBtn) => {
     filterBtn.addEventListener("click", () => {
       const tag = filterBtn.getAttribute("data-tag");
-      // UI highlight
       document.querySelectorAll(".slide.filter").forEach((el) => {
         el.classList.remove("active");
       });
       filterBtn.classList.add("active");
-      // Fetch JSON listing data
       fetch(`/listings/filter/${tag}`)
-        .then((res) => res.json()) // ✅ Parse as JSON
+        .then((res) => res.json()) 
         .then((filteredListings) => {
           currentPage = 1;
           // renderListingsWithPagination(filteredListings);
@@ -374,7 +358,6 @@ document.addEventListener("DOMContentLoaded", () => {
       .catch((err) => console.error("Error fetching filtered listings:", err));
   }
 });
-//Sudipta Khanra at 01-07-2025 21:03
 document.addEventListener("DOMContentLoaded", () => {
   bindSaveButtons();
   console.log("JS loaded ✅");
@@ -435,7 +418,6 @@ document.addEventListener("DOMContentLoaded", () => {
       </div>
     </a>
   </div>`;
-
       container.insertAdjacentHTML("beforeend", cardHTML);
     });
     bindSaveButtons();
@@ -671,12 +653,10 @@ function renderListingsWithPagination(
 ) {
   const container = document.getElementById(containerId);
   if (!container) return;
-
   const totalPages = Math.ceil(listings.length / listingsPerPage);
   const start = (currentPage - 1) * listingsPerPage;
   const end = currentPage * listingsPerPage;
   const paginatedListings = listings.slice(start, end);
-
   if (listings.length === 0) {
     container.innerHTML = `
       <div class="col-12 text-center my-5">
@@ -698,12 +678,9 @@ function renderListingsWithPagination(
     if (pagination) pagination.innerHTML = "";
     return;
   }
-
   container.innerHTML = "";
-
   paginatedListings.forEach((listing) => {
     const priceFormatted = listing.price.toLocaleString("en-IN");
-
     const isSaved = listing.isSaved === true;
     const saveButtonHTML = currUserId
       ? `
@@ -716,7 +693,6 @@ function renderListingsWithPagination(
         }"></i>
       </button>`
       : "";
-
     const cardHTML = `
       <div class="col">
         <div class="card h-100 hover-card position-relative">
@@ -730,28 +706,22 @@ function renderListingsWithPagination(
     ${priceFormatted}
   </span> /night
 </p>
-
             </div>
           </a>
         </div>
       </div>
     `;
-
     container.insertAdjacentHTML("beforeend", cardHTML);
   });
-
   renderPagination(listings);
-
   if (shouldScroll) {
     window.scrollTo({
       top: container.offsetTop - 100,
       behavior: "smooth",
     });
   }
-
   bindSaveButtons(); // Re-bind after DOM update
 }
-
 function renderPagination(listings) {
   const totalPages = Math.ceil(listings.length / listingsPerPage);
   // Don't show pagination if only 1 or 0 pages
@@ -841,3 +811,4 @@ document.addEventListener("DOMContentLoaded", () => {
     console.error("allListings not found");
   }
 });
+

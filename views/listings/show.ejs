@@ -4,7 +4,6 @@
 
 
 <script>
-  // Remove or comment this out if you don't pass 'listings'
   // const allListings = <%- JSON.stringify(listings) %>;
   const mapToken = "<%= process.env.MAP_API %>";
   const listing = <%- JSON.stringify(listing) %>;
@@ -36,7 +35,6 @@
 
       <% if(currUser && currUser._id.equals(listing.owner._id)) {%>
       <div class="mt-4 d-flex justify-content-start btns">
-        <!-- d-flex justify-content-between -->
         <a
           href="/listings/<%= listing._id %>/edit"
           class="btn btn-dark me-3 ps-5 pe-5"
@@ -49,7 +47,6 @@
       </div>
       <% } %> 
       
-<!-- Listing Delete Modal -->
 <div id="listing-delete-modal" class="custom-modal-hidden custom-modal-overlay">
   <div class="custom-modal-content">
     <h2 class="custom-modal-title">Confirm Deletion</h2>
@@ -67,14 +64,13 @@
 
 <div class="guest-rating-box">
 <div class="section1">
-  <!-- Section 1 -->
       <img class="laurel-icon" src="/reviewImg1.jpg" alt="left laurel" />
 
   <div class="section">
     Guest<br />
     favourite
   </div>
-    <img class="laurel-icon" src="/reviewImg2(1)(1).jpg" alt="left laurel" />
+    <img class="laurel-icon laurelImg2Top" src="/reviewImg2(1)(1).jpg" alt="left laurel" />
 </div>
 
   <div class="section-para text-muted font">
@@ -88,7 +84,7 @@
   </div>
 <div class="vertical-bar"></div>
 
-  <div class="section text-muted">
+  <div class="section text-muted leavesreviews">
     <%= listing.reviews.length %><br />
     reviews
   </div>
@@ -218,7 +214,6 @@
   <% }) %>
 </ul>
 
-<!-- ✅ Show All Reviews Button -->
 <% if (listing.reviews.length > 4) { %>
   <div class=" mt-3">
     <button class="btn btn-outline-dark btn-sm" data-bs-toggle="modal" data-bs-target="#allReviewsModal">
@@ -288,7 +283,6 @@
 
 <div class="row">
  
-<!-- Testing -->
 <%
   const iconMap = {
     'apartment': 'apartment',
@@ -457,15 +451,13 @@
 </button>
 </div>
 
- <!-- Step 1: Show Availability Button -->
+
   <button id="show-availability-btn">Book your Room</button>
 
-  <!-- Step 2: Sidebar Reservation Box (Initially Hidden) -->
   <div id="reservation-section" class="sidebar-only">
   <div class="reservation-box">
     <div class="close-reserve-box" id="close-reserve-box">×</div>
 
-    <!-- ✅ Begin Form -->
     <form action="/bookings/<%= listing._id %>/book" method="POST" id="booking-form">
       <div class="price-section">
         <span class="price">₹<%= finalPrice.toLocaleString("en-IN") %></span> for 1 night
@@ -497,7 +489,6 @@
       <button type="submit" class="reserve-btn">Reserve</button>
       <p class="note">You won't be charged yet</p>
     </form>
-    <!-- ✅ End Form -->
   </div>
 </div>
   <!-- Step 3: Calendar Modal -->
@@ -565,11 +556,10 @@
 </div>
   <script src="https://unpkg.com/maplibre-gl@2.4.0/dist/maplibre-gl.js"></script>
   <script src="../js/map.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  
 
 </div>
 <!-- Bootstrap JS -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script>
   const openModalBtn = document.getElementById('openModalBtn');
   const allAmenitiesModal = new bootstrap.Modal(document.getElementById('allAmenitiesModal'));
@@ -579,3 +569,4 @@
 
 <script src="https://cdn.jsdelivr.net/npm/litepicker/dist/litepicker.js"></script>
 <script src="/js/show.js"></script>
+

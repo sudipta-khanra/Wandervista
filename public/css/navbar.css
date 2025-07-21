@@ -31,7 +31,7 @@
   border-radius: 25px;
   background-color: white;
 }
-/* Common styles for login, signup, logout links */
+/* styles for login, signup, logout links */
 .auth-btn {
   font-size: 14px;
   font-weight: 700 !important;
@@ -55,7 +55,6 @@
   color: white;
 }
 
-/* Optional: separate styles for sign up, sign in & log out button to stand out */
 .auth-btn.signup {
   border: 1px solid #ff385c;
   color: #ff385c;
@@ -79,13 +78,15 @@
   gap: 4px;
 }
 #menu-toggle .bar {
-  width: 25px;
-  height: 3px;
+  width: 20px;
+  height: 2px;
   background-color: #222;
   border-radius: 2px;
   transition: all 0.3s ease;
 }
+
 .auth-dropdown {
+  display: none;
   position: absolute;
   top: 45px;
   right: 0;
@@ -93,13 +94,36 @@
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
   border-radius: 12px;
   padding: 12px 20px;
-  display: none;
+  z-index: 100;
   flex-direction: column;
   gap: 12px;
   min-width: 200px;
-  z-index: 100;
   align-items: flex-start;
+  color: black; /* Make text visible */
 }
+
+.auth-dropdown.show {
+  display: flex;
+}
+
+.auth-dropdown a {
+  color: black;
+  text-decoration: none;
+  font-weight: 600;
+  display: block;
+}
+
+@media (max-width: 768px) {
+  .auth-dropdown {
+    position: static;
+    width: 100%;
+    box-shadow: none;
+    border: none;
+    padding: 0.5rem 0;
+    margin-top: 1rem;
+  }
+}
+
 .auth-btn {
   font-weight: 600;
   color: #222;
@@ -113,10 +137,6 @@
   display: block;
 }
 
-.auth-dropdown.show {
-  display: flex;
-}
-/* add your home */
 .add-home-btn {
   font-weight: 600;
   color: #222;
@@ -205,7 +225,7 @@ select:focus {
   background-color: #f0f0f0;
 }
 
-/* search destinations 23-06-2025 23:16*/
+/* search destinations */
 #suggestion-box {
   position: absolute;
   top: 100%;
@@ -330,7 +350,6 @@ select:focus {
 #btn-search-input {
   position: relative;
   z-index: 1;
-
   background-color: white;
   border: 1px solid #ddd;
   padding: 12px 20px;
@@ -363,4 +382,229 @@ select:focus {
   box-shadow: 0 0 0 2px rgba(0, 132, 255, 0.2) !important;
 
   background-size: 300% 300%;
+}
+
+@media (max-width: 576px) {
+  .navbar-brand {
+    font-size: 1.2rem;
+  }
+
+  .wandervista .nav-link {
+    font-size: 1rem;
+  }
+
+  .bookings,
+  .favorites-link {
+    padding: 6px 10px;
+    font-size: 0.9rem;
+  }
+
+  /* Search input and button */
+  #btn-search-input {
+    font-size: 0.9rem;
+    padding: 8px;
+  }
+
+  #btn-search {
+    font-size: 0.9rem;
+    padding: 8px 10px;
+  }
+
+  /* Auth Dropdown mobile spacing */
+  .auth-dropdown a {
+    font-size: 0.9rem;
+    padding: 6px 8px;
+  }
+
+  /* Leaf icon fix */
+  .laurel-icon {
+    width: 28px !important;
+    height: 28px !important;
+  }
+
+  /* Dropdown panel adjustments */
+  #dropdownPanel {
+    position: static !important;
+    margin-top: 10px;
+    width: 100%;
+  }
+
+  /* Form responsiveness */
+  form#searchForm {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  /* Burger menu alignment */
+  .menu-container {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 10px;
+  }
+}
+
+@media (max-width: 768px) {
+  .navbar-nav {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .wandervista a {
+    font-size: 1.1rem;
+  }
+
+  .bookings,
+  .favorites-link {
+    font-size: 0.95rem;
+  }
+
+  /* Reduce spacing in dropdowns */
+  #dropdownPanel select {
+    font-size: 0.9rem;
+  }
+
+  #dropdownPanel label {
+    font-size: 0.9rem;
+  }
+
+  /* Smaller leaf icon */
+  .laurel-icon {
+    width: 32px !important;
+    height: 32px !important;
+  }
+}
+
+@media (min-width: 769px) {
+  #dropdownPanel {
+    top: 100%;
+    right: 0;
+    width: 250px;
+  }
+
+  .menu-container {
+    margin-left: 20px;
+  }
+}
+
+/* ✅ Responsive Adjustments */
+@media (max-width: 576px) {
+  #searchForm {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+  }
+
+  #btn-search-input {
+    font-size: 1.15rem;
+    padding: 10px;
+    width: 100%;
+    max-width: 65%;
+    border-radius: 25px;
+    display: inline;
+  }
+
+  #btn-search {
+    font-size: 0.9rem;
+    padding: 8px 14px;
+    width: auto;
+    white-space: nowrap;
+    border-radius: 25px;
+  }
+  #menu-toggle .bar {
+    /* display: none; */
+  }
+}
+
+.f-info-socials a {
+  color: #000;
+  opacity: 0.7;
+}
+.f-info-socials a:hover {
+  opacity: 1;
+}
+
+@media (max-width: 767.98px) {
+  .navbar-nav {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  /* Search form full width and stack */
+  #searchForm {
+    margin-top: 0.5rem;
+  }
+
+  /* Search input full width */
+  .custom-search {
+    width: 100%;
+    border-radius: 30px;
+  }
+
+  /* Search button full width */
+  #btn-search {
+    width: 40%;
+    margin-top: 0.5rem;
+    border-radius: 30px;
+    margin: auto;
+  }
+
+  /* Show auth dropdown always visible below search */
+  .auth-dropdown {
+    /* position: static;
+    display: block !important; */
+    width: 100%;
+    box-shadow: none;
+    border: none;
+    padding: 0.5rem 0;
+    margin-top: 1rem;
+  }
+
+  /* Menu toggle button visible */
+  #menu-toggle {
+    display: flex;
+  }
+
+  /* Add your home button full width */
+  .add-home-btn {
+    width: 100%;
+    text-align: center;
+    margin-top: 1rem;
+    border-radius: 30px;
+  }
+
+  /* Dropdown panel below search, full width */
+  #dropdownPanel {
+    position: static !important;
+    width: 100% !important;
+    margin-top: 0.5rem;
+    box-shadow: none !important;
+    border: 1px solid #ddd !important;
+    border-radius: 8px;
+  }
+}
+
+@media (max-width: 767.98px) {
+  .bookings,
+  .favorites-link {
+    display: block;
+    margin: 0.3rem 0 0 0;
+    width: 100%;
+    text-align: center;
+    border-radius: 30px;
+  }
+}
+@media (max-width: 767.98px) {
+  .auth-link {
+    width: 100%;
+    text-align: center;
+    margin-top: 0.5rem;
+    background-color: #f9f9f9;
+  }
+
+  .auth-link:hover {
+    background-color: #e0e0e0;
+  }
 }

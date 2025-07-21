@@ -26,16 +26,16 @@ const listingRoutes = require("./routes/listing.js");
 const citiesByCountry = require("./data/country");
 const citiesByDestinations = require("./data/destinations.js");
 const bookingRoutes = require("./routes/bookings.js");
-// const LinkedInStrategy = require("passport-linkedin-oauth2").Strategy;
 const GitHubStrategy = require("passport-github2").Strategy;
 const oauthRoutes = require('./routes/oauth.js');
+const footerRoutes = require('./routes/footer');
 
 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
-app.use(express.json()); // For parsing application/json
-app.use(express.urlencoded({ extended: true })); // For parsing application/x-www-form-urlencoded
+app.use(express.json()); 
+app.use(express.urlencoded({ extended: true })); 
 app.use(methodOverride("_method"));
 
 app.engine("ejs", ejsMate);
@@ -52,8 +52,7 @@ const store = MongoStore.create({
   touchAfter: 24 * 3600,
 });
 
-//meaning you can listen for certain events using .on()
-//'error'	When the session store encounters an error (e.g., DB issue)
+
 store.on("error", (err) => {
   console.log("ERROR IN MONGO SESSION STORE", err);
 });
@@ -82,10 +81,7 @@ async function main() {
   await mongoose.connect(process.env.MONGODB_ATLAS);
 }
 
-//root api/route
-// app.get("/", (req, res) => {
-//   res.send("Hi, I'm root");
-// });
+
 
 app.use(session(sessionOptions));
 app.use(flash());
@@ -151,9 +147,7 @@ app.use((req, res, next) => {
   next();
 });
 
-// console.log("MongoDB Atlas URL:", process.env.MONGODB_ATLAS);
 
-// 🔧 Fix single string -> array for multiple selection fields
 app.use((req, res, next) => {
   const { listing } = req.body;
 
@@ -166,8 +160,6 @@ app.use((req, res, next) => {
       }
     }
   }
-  // console.log("Submitted listing data:", req.body.listing);
-
   next();
 });
 
@@ -176,26 +168,8 @@ app.use((req, res, next) => {
   res.locals.citiesByCountry = JSON.stringify(citiesByCountry);
   res.locals.citiesByDestinations = JSON.stringify(citiesByDestinations);
 
-  // console.log(citiesByDestinations)
   next();
 });
-
-// app.get("/registerUser", async (req, res) => {
-//   let fakeUser = new User({
-//     email: "abc@getMaxListeners.com",
-//     username: "sudipta khanra",
-//   });
-//   let registeredUser = await User.register(fakeUser, "helloWorld");
-//   console.log(registeredUser);
-// });
-
-//routes
-// app.use('/bookings', bookingRoutes);
-
-// app.use("/listings", listingRouter);
-// app.use("/listings/:id/reviews", reviewRouter);
-// app.use("/", userRouter);
-// app.use("/", listingRoutes);
 
 app.use("/bookings", bookingRoutes);
 app.use("/listings", listingRouter);
@@ -203,8 +177,8 @@ app.use("/listings/:id/reviews", reviewRouter);
 app.use("/", userRouter);
 app.use("/", listingRoutes);
 app.use("/", oauthRoutes);
+app.use('/', footerRoutes);
 
-//tags slider
 
 app.all("*", (req, res, next) => {
   next(new ExpressError(404, "Page not found"));
@@ -213,7 +187,6 @@ app.all("*", (req, res, next) => {
 app.use((err, req, res, next) => {
   let { statusCode = 500, message = "Something went wrong" } = err;
   res.status(statusCode).render("error.ejs", { message });
-  // res.status(statusCode).send(message);
 });
 
 //app listener
@@ -221,7 +194,6 @@ app.listen(port, () => {
   console.log(`app is listening on port ${port}`);
 });
 
-//05-07-2025..
 
 function applyModalFilters(filters) {
   const filteredListings = allListings.filter((listing) => {
@@ -235,5 +207,5 @@ function applyModalFilters(filters) {
     );
   });
 
-  renderListings(filteredListings); // update the UI
+  renderListings(filteredListings);
 }

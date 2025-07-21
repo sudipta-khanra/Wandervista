@@ -1,4 +1,4 @@
-/* ===== General Reset & Base Styles ===== */
+/*  General Reset & Base Styles  */
 body {
   font-family: "Segoe UI", sans-serif;
   margin: 0;
@@ -15,7 +15,7 @@ button {
   font-size: 14px;
 }
 
-/* ===== Grid & Card Layout ===== */
+/*  Grid & Card Layout  */
 .custom-grid {
   display: flex;
   flex-wrap: wrap;
@@ -57,7 +57,6 @@ button {
 }
 
 .card-body {
-  /* padding: 1rem; */
   padding: 0 1rem 1rem 1rem;
 }
 
@@ -80,7 +79,7 @@ button {
   text-indent: -9999px;
 }
 
-/* ===== Filter Box ===== */
+/*  Filter Box  */
 .filter-box {
   display: inline-flex;
   align-items: center;
@@ -130,7 +129,7 @@ button {
   display: inline;
 }
 
-/* ===== Slider ===== */
+/*  Slider  */
 .slider-container {
   display: flex;
   align-items: center;
@@ -199,7 +198,7 @@ button {
   background-color: #f7f7f7;
 }
 
-/* ===== Modal ===== */
+/*  Modal  */
 .modal {
   display: none;
   position: fixed;
@@ -277,7 +276,7 @@ button {
   color: white;
 }
 
-/* ===== Responsive ===== */
+/*  Responsive  */
 @media (max-width: 992px) {
   .listing-box {
     width: calc(33.33% - 1rem);
@@ -306,7 +305,7 @@ button {
   }
 }
 
-/* ===== Dark Mode Support ===== */
+/*  Dark Mode Support  */
 @media (prefers-color-scheme: dark) {
   .modal-content {
     background-color: #1e1e1e;

@@ -16,7 +16,6 @@
         <div class="image-wrapper">
           <img src="<%= listing.image.url %>" alt="<%= listing.title %>">
 
-          <!-- ✅ DELETE button form using DELETE method -->
           <form action="/listings/<%= listing._id %>/save?_method=DELETE" method="POST" class="delete-form">
             <button type="submit" class="delete-btn" title="Remove from favorites">
               <i class="fa-solid fa-trash"></i>

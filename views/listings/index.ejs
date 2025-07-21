@@ -8,12 +8,15 @@
   referrerpolicy="no-referrer"
 />
 
-
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
-
 <style>
-  
+.far {
+  background-color: #d9ddde;
+  /* border: 2px solid white; */
+  border-radius: 15px;
+  padding: 3px;
+}
   .pagination_idx {
     display: flex;
     align-items: center;
@@ -23,7 +26,6 @@
     margin-top: 15px;
     margin-bottom: 15px;
   }
-
   .pagination_idx button {
     cursor: pointer;
     padding: 8px 12px;
@@ -34,23 +36,19 @@
     color: #333;
     transition: background 0.3s, color 0.3s;
   }
-
   .page-btn:hover,
   .arrow-btn:hover {
     background: #eee;
   }
-
   .pagination_idx button.active {
     background: #000;
     color: white;
     font-weight: bold;
     cursor: default;
   }
-
   .pagination_idx button:hover:not(.active) {
     background: #ddd;
   }
-
   .pagination_idx .ellipsis {
     font-size: 18px;
     color: #888;
@@ -69,7 +67,6 @@
   width: max-content;          
   margin-left: auto;            
 }
-
 /* Label styles */
 .custom-switch-search .custom-label {
   white-space: nowrap;
@@ -78,7 +75,6 @@
   color: #333;
   user-select: none; 
 }
-
 /* Hide default checkbox */
 .custom-switch-search .custom-input {
   position: relative;
@@ -91,7 +87,6 @@
   transition: background 0.3s;
   cursor: pointer;
 }
-
 /* Circle inside toggle */
 .custom-switch-search .custom-input::before {
   content: '';
@@ -104,16 +99,13 @@
   background: white;
   transition: 0.3s;
 }
-
 /* Checked state */
 .custom-switch-search .custom-input:checked {
   background: #000; /* green */
 }
-
 .custom-switch-search .custom-input:checked::before {
   transform: translateX(20px);
 }
-
 .save-btn {
   background-color: transparent !important;
   border: none;
@@ -121,13 +113,10 @@
   margin: 0 !important;
   padding-top: 0 !important;
 }
-
 </style>
-
 <script>
   // All listings data passed from server side
   const allListings = <%- JSON.stringify(listings) %>;
-
   // Filter tag and city from server if present
   const tag = "<%= typeof tag !== 'undefined' ? tag : '' %>";
   const city = "<%= typeof city !== 'undefined' ? city : '' %>";
@@ -140,7 +129,6 @@
   const currUser = <%- JSON.stringify(currUser) %>;
 </script>
 
-
 <body class="navbar_space">
   <div class="container-fluid index_budy mt-3">
     <% if (!isSearchPage) { %>
@@ -152,7 +140,6 @@
           <i class="fa-solid fa-chevron-left"></i>
         </button>
       </div>
-
       <!-- Slider content -->
       <div class="slider-wrapper" id="sliderWrapper">
         <% const tagIcons = { "All": "fa-list", "Trending": "fa-fire", "Beach":
@@ -173,14 +160,13 @@
         </div>
         <% }); %>
       </div>
-
+      
       <!-- Slider right -->
       <div class="slider-buttons slider-buttons-i-2">
         <button class="slider-button" onclick="scrollSlider(200)">
           <i class="fa-solid fa-chevron-right"></i>
         </button>
       </div>
-
       <!-- Filter Button -->
       <div class="filter-box" id="filterBox">
         <div class="filter-icon">
@@ -190,13 +176,11 @@
         </div>
         <span class="filter-text" id="filterCount">Filters</span>
       </div>
-
       <!-- Filter Modal -->
       <div id="filterModal" class="modal">
         <div class="modal-content">
           <span class="close-btn" id="closeModal">&times;</span>
           <h2>Filters</h2>
-
           <div class="modal-section two-columns">
             <div class="filter-group">
               <h4>Property Type</h4>
@@ -210,6 +194,7 @@
               <h4>Amenities</h4>
               <div class="filter-boxes" id="amenitiesFilters"></div>
             </div>
+            
             <div class="filter-group">
               <h4>Price Range (₹)</h4>
               <div class="price-header">
@@ -242,6 +227,8 @@
                 <div class="slider-track"></div>
               </div>
             </div>
+            
+    
             <div class="filter-group" id="topPicksFilters">
               <h4>Top Picks</h4>
               <label
@@ -271,8 +258,6 @@
           </div>
         </div>
       </div>
-
-      <!-- GST Toggle -->
       <div class="custom-switch mt-1">
         <label class="custom-label" for="gstToggle"
           >Display total before taxes</label
@@ -280,16 +265,14 @@
         <input class="custom-input" type="checkbox" id="gstToggle" />
       </div>
     </div>
-
+    
     <% } %>
 <% if (isSearchPage) { %>
   <div class="custom-switch-search">
   <label class="custom-label" for="gstToggle">Display total before taxes</label>
   <input class="custom-input" type="checkbox" id="gstToggle" />
 </div>
-
 <% } %>
-
 
 
 <!-- Listings Grid -->
@@ -315,7 +298,6 @@
     %>
       <div class="col">
         <div class="card h-100 hover-card position-relative">
-
           <!-- ❤️ Save Icon (only if user is logged in) -->
        <% if (currUser) { 
   const savedBy = Array.isArray(listing.savedBy) ? listing.savedBy : [];
@@ -323,12 +305,11 @@
 %>
   <button
     type="button"
-    class="save-btn btn btn-light rounded-circle shadow-sm p-2 position-absolute top-0 end-0 m-2"
+    class="save-btn btn btn-light white-bg rounded-circle shadow-sm p-2 position-absolute top-0 end-0 m-2"
     data-id="<%= listing._id %>">
     <i class="<%= isSaved ? 'fas fa-heart text-danger' : 'far fa-heart text-dark' %>"></i>
   </button>
 <% } %>
-
 
           <!-- Listing link & body -->
           <a href="/listings/<%= listing._id %>" class="touch text-decoration-none text-dark">
@@ -340,7 +321,6 @@
               </p>
             </div>
           </a>
-
         </div>
       </div>
       
@@ -349,17 +329,16 @@
 </div>
 
 
-
     <% console.log('currUser:', currUser); %>
-
     <!-- Pagination -->
     <div
       id="pagination"
       class="d-flex justify-content-center mt-4 pagination-fixed pagination_idx"
     ></div>
-
     <!-- External JS -->
     <script src="/js/indexejs.js"></script>
   </div>
 
+
 </body>
+

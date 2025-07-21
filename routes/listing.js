@@ -45,7 +45,6 @@ router.get("/search", async (req, res) => {
     }
     // Add filters from query parameters
     if (rating) {
-      // Assuming you calculate average rating and store in listing.rating
       filter.rating = { $gte: parseFloat(rating) };
     }
     if (minPrice && maxPrice) {
@@ -69,7 +68,6 @@ router.get("/search", async (req, res) => {
 
     const listings = await Listing.find(filter);
 
-    // ✅ Add this block: enrich with isSaved
     const userId = req.user?._id?.toString();
     const enrichedListings = listings.map((listing) => {
       const savedByList = Array.isArray(listing.savedBy)
@@ -152,7 +150,7 @@ router.get(
 
 router.get("/listings/filter/:tag", async (req, res) => {
   const { tag } = req.params;
-  const userId = req.user?._id?.toString(); // 👈 Get current user
+  const userId = req.user?._id?.toString();
   let filter = {};
   if (tag !== "All") {
     filter.tags = tag;
@@ -167,13 +165,12 @@ router.get("/listings/filter/:tag", async (req, res) => {
 
       return {
         ...(listing._doc || listing),
-        isSaved: userId && savedByList.includes(userId), // 👈 Important part
+        isSaved: userId && savedByList.includes(userId),
       };
     });
 
-    res.json(enrichedListings); // ✅ return with isSaved
+    res.json(enrichedListings);
   } catch (err) {
-    console.error(err);
     res.status(500).json({ error: "Server Error" });
   }
 });
@@ -211,7 +208,6 @@ router.post("/listings/:id/save", isLoggedIn, async (req, res) => {
       savedBy: updatedListing.savedBy,
     });
   } catch (error) {
-    console.error("❌ Error in save route:", error);
     res.status(500).json({ success: false, message: "Internal Server Error" });
   }
 });
@@ -224,7 +220,6 @@ router.get("/listings/favorites", isLoggedIn, async (req, res) => {
 
     res.render("listings/favorites", { favorites });
   } catch (err) {
-    console.error("❌ Error loading favorites:", err);
     res.redirect("/");
   }
 });
@@ -241,7 +236,6 @@ router.delete("/listings/:id/save", isLoggedIn, async (req, res) => {
     req.flash("success", "Removed from favorites.");
     res.redirect("/listings/favorites");
   } catch (err) {
-    console.error("❌ DELETE save error:", err);
     req.flash("error", "Something went wrong.");
     res.redirect("/listings/favorites");
   }
