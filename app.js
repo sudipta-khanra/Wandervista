@@ -121,7 +121,7 @@ passport.use(new GitHubStrategy({
   clientID: process.env.GITHUB_CLIENT_ID,
   clientSecret: process.env.GITHUB_CLIENT_SECRET,
   // callbackURL: "/auth/github/callback",
-    callbackURL: "https://wandervista-dt18.onrender.com/listings/auth/github/callback",
+    callbackURL: "https://wandervista-dt18.onrender.com/auth/github/callback",
   scope: ['user:email'],
 }, async (accessToken, refreshToken, profile, done) => {
   try {
