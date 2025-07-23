@@ -551,6 +551,7 @@ select:focus {
     margin: auto;
   }
 
+  
   /* Show auth dropdown always visible below search */
   .auth-dropdown {
     /* position: static;

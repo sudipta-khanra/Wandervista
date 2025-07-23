@@ -35,34 +35,31 @@
   #suggestion-box li {
     cursor: pointer;
   }
-.wandervista a {
+.navbar-brand.wandervista {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;  /* space between icon and text */
   font-family: 'Nunito', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   font-weight: 700;
   font-size: 1.3rem;
   color: #ff385c; 
-  display: flex;
-  align-items: center;
-  gap: 0.4rem;
-  transition: color 0.3s ease;
   cursor: pointer;
   text-decoration: none;
-  padding: 0!important;
+  padding: 0 !important;
 }
 
-.wandervista .nav-link:hover {
-  color: #ff385c;
-}
 
-/* Style for the icon inside the link */
-.wandervista .nav-link i {
+.navbar-brand.wandervista i {
   font-size: 1.5rem;
   color: #ff385c;
   transition: transform 0.3s ease;
 }
 
-.wandervista .nav-link:hover i {
-  transform: rotate(20deg);
+.navbar-brand.wandervista:hover i {
+  transform: rotate(40deg);
 }
+
+
 .bookings {
   text-decoration: none;
   font-weight: 600;
@@ -99,7 +96,8 @@
 <body>
   <nav class="navbar navbar-expand-md bg-light sticky-top">
   <div class="container-fluid m-0">
-    <a class="navbar-brand" href="/listings"><i class="fa-regular fa-compass"></i></a>
+    <a class="navbar-brand wandervista" href="/listings"><i class="fa-regular fa-compass"></i> <span>WanderVista</span>
+</a>
     <button
       class="navbar-toggler"
       type="button"
@@ -114,7 +112,7 @@
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
       <div class="navbar-nav wandervista">
         <!-- <a class="nav-link active" aria-current="page" href="/">Home</a> -->
-        <a class="nav-link" href="/listings">WanderVista</a>
+        <!-- <a class="nav-link" href="/listings">WanderVista</a> -->
       </div>
 
 <div class="navbar-nav ms-auto position-relative" style="z-index: 1;">

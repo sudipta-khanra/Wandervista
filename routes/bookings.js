@@ -25,6 +25,7 @@ router.post("/:listingId/book", isLoggedIn, async (req, res) => {
     });
 
     await newBooking.save();
+    console.log("--------------------------------------");
     req.flash("success", "Your order booked!");
     res.redirect(`/listings/${listingId}?booking=success`);
   } catch (err) {
@@ -79,6 +80,7 @@ router.delete("/:bookingId", isLoggedIn, async (req, res) => {
     if (!booking) {
       return res.status(403).send("Unauthorized or booking not found");
     }
+    console.log("--------------------------------------");
     req.flash("success", "Your order was deleted!");
 
     res.redirect("/bookings");

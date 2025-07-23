@@ -9,7 +9,7 @@ module.exports.isLoggedIn = (req, res, next) => {
   if (!req.isAuthenticated()) {
     req.session.redirectUrl = req.originalUrl;
       console.log("--------------------------------------");
-
+      console.log("--------------------------------------");
     req.flash("error", "You must be logged in to perform this action!");
     return res.redirect("/login");
   }
@@ -28,7 +28,7 @@ module.exports.isOwner = async (req, res, next) => {
   let listing = await Listing.findById(id);
   if (!listing.owner.equals(res.locals.currUser._id)) {
           console.log("--------------------------------------");
-
+          console.log("--------------------------------------");
     req.flash("error", "You are not the owner of the listing!");
     return res.redirect(`/listings/${id}`);
   }
@@ -45,6 +45,7 @@ module.exports.isReviewAuthor = async (req, res, next) => {
   // }
   if (!review.author.equals(res.locals.currUser._id)) {
   console.log("Not review author – error, You are not the author of the review!");
+  console.log("--------------------------------------");
   req.flash("error", "You are not the author of the review!");
   return res.redirect(`/listings/${id}`);
 }
