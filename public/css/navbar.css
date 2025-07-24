@@ -128,7 +128,7 @@
   font-weight: 600;
   color: #222;
   border-radius: 9999px;
-  padding: 8px 24px !important;
+  /* padding: 12px 24px !important; */
   cursor: pointer;
   border: none;
   background: transparent;

@@ -1,9 +1,19 @@
 <% layout("/layouts/boilerplate.ejs")%>
+<style>
+@media (max-width: 599px) {
+  .login_h2 {
+    font-size: 22px !important;
+    width: 400px;
+    margin-bottom: 20px;
+  }
+}
+
+</style> 
 
   <body>
     <div class="row mt-3">
       <div class="col-6 offset-3">
-        <h2>Sign Up to Wanderlust</h2>
+        <h2 class="login_h2">Sign Up to Wanderlust</h2>
         <form
           method="POST"
           action="/signup"
