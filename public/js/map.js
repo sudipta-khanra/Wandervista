@@ -1,101 +1,76 @@
-document.addEventListener("DOMContentLoaded", function () {
-  const maptilerKey = mapToken; // Provided by EJS from the server
+document.addEventListener('DOMContentLoaded', () => {
+  const mapContainer = document.getElementById('map');
 
+  // 1. Safety Checks
+  if (!mapContainer) {
+    console.warn('⚠️ #map not found — skipping map initialization');
+    return;
+  }
+
+  if (
+    typeof mapToken === 'undefined' ||
+    !mapToken ||
+    mapToken === 'YOUR_API_KEY'
+  ) {
+    console.error(
+      '❌ mapToken missing or invalid. Check your .env and EJS passing.'
+    );
+    return;
+  }
+
+  if (
+    typeof listing === 'undefined' ||
+    !listing.geometry ||
+    !Array.isArray(listing.geometry.coordinates)
+  ) {
+    console.error('❌ listing coordinates missing');
+    return;
+  }
+
+  const coordinates = listing.geometry.coordinates;
+
+  // 2. Initialize the Map
   const map = new maplibregl.Map({
-    container: "map",
-    style: `https://api.maptiler.com/maps/streets/style.json?key=${maptilerKey}`,
-    // center: [88.3639, 22.5726],
-    center: listing.geometry.coordinates,
+    container: mapContainer,
+    style: `https://api.maptiler.com/maps/streets/style.json?key=${mapToken}`,
+    center: coordinates,
     zoom: 9,
   });
 
-// const homeIconSVG = `
-//   <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" width="24" height="24">
-//     <path fill="currentColor" d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
-//   </svg>
-// `;
+  // Add zoom and rotation controls
+  map.addControl(new maplibregl.NavigationControl());
 
-// const popupHTML = `
-//   <div style="max-width: 240px;">
-//     <img src="${listing.image.url}" alt="Listing image" style="width:100%; height:140px; object-fit:cover; border-radius:8px;" />
-//     <h6 style="margin: 8px 0 4px; font-size: 16px;">${listing.title}</h6>
-//     <p style="margin: 0; color: gray; font-size: 14px;">${listing.location}</p>
-//     <strong style="color:#222;">₹${listing.price.toLocaleString("en-IN")} / night</strong>
-//   </div>
-// `;
+  // 3. Prepare the Popup
+  const popupHTML = `
+        <div style="max-width:200px; text-align: center;">
+            <img src="${listing.image.url}" 
+                 alt="Listing" 
+                 style="width:100%; height:100px; object-fit: cover; border-radius: 8px; margin-bottom: 8px;" 
+            />
+            <h6 style="margin: 0; font-size: 14px;">${listing.location}</h6>
+            <p style="margin: 4px 0 0; font-size: 12px; color: #666;">
+                Exact location provided after booking
+            </p>
+        </div>
+    `;
 
-// const popup = new maplibregl.Popup({ offset: 25 }).setHTML(popupHTML);
+  const popup = new maplibregl.Popup({ offset: 25 }).setHTML(popupHTML);
 
-// const el = document.createElement('div');
-// el.className = 'custom-marker';
-// el.innerHTML = homeIconSVG;
+  // 4. Create Custom Marker Element
+  const homeIconSVG = `
+        <svg viewBox="0 0 24 24" width="32" height="32" style="filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));">
+            <path fill="#fe424d" d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+        </svg>
+    `;
 
-// const marker = new maplibregl.Marker({ element: el })
-//   .setLngLat(listing.geometry.coordinates)
-//   .setPopup(popup)
-//   .addTo(map);
+  const markerEl = document.createElement('div');
+  markerEl.className = 'custom-marker';
+  markerEl.style.cursor = 'pointer';
+  markerEl.innerHTML = homeIconSVG;
 
-const homeIconSVG = `
-  <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
-    <path fill="currentColor" d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
-  </svg>
-`;
-
-const popupHTML = `
-  <div style="max-width: 240px;">
-      <img 
-        src="${listing.image.url}" 
-        alt="Listing image" 
-        style="width: 75%; height: 90px; display: block; margin: 0 auto; border: 1px solid #ddd; border-radius: 12px;" 
-      />
-
-    <h6 style="font-size: 14px; margin: 5px 0 4px;">${listing.location}</h6>
-    <p style="margin: 0; color: gray; font-size: 13px;">Exact location provided after booking</p>
-  </div>
-`;
-
-
-const popup = new maplibregl.Popup({ offset: 25 }).setHTML(popupHTML);
-
-const el = document.createElement('div');
-el.className = 'custom-marker';
-el.innerHTML = homeIconSVG;
-
-const marker = new maplibregl.Marker({ element: el })
-  .setLngLat(listing.geometry.coordinates)
-  .setPopup(popup)
-  .addTo(map);
-
-
-
-  // Geocoding button logic
-  const geocodeBtn = document.getElementById("geocodeBtn");
-  const addressInput = document.getElementById("addressInput");
-
-  if (geocodeBtn && addressInput) {
-    geocodeBtn.addEventListener("click", function () {
-      const address = addressInput.value.trim();
-      if (!address) return alert("Please enter an address");
-
-      fetch(
-        `https://api.maptiler.com/geocoding/${encodeURIComponent(
-          address
-        )}.json?key=${maptilerKey}`
-      )
-        .then((res) => res.json())
-        .then((data) => {
-          if (data.features && data.features.length > 0) {
-            const coords = data.features[0].center;
-            map.flyTo({ center: coords, zoom: 14 });
-            marker.setLngLat(coords);
-          } else {
-            alert("No location found.");
-          }
-        })
-        .catch((err) => {
-          console.error("Geocoding failed:", err);
-          alert("Error occurred during geocoding.");
-        });
-    });
-  }
+  // 5. Add Marker to Map
+  new maplibregl.Marker({ element: markerEl })
+    .setLngLat(coordinates)
+    .setPopup(popup)
+    .addTo(map);
 });

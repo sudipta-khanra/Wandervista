@@ -35,16 +35,6 @@
       rel="stylesheet"
     />
     <script src="https://unpkg.com/maplibre-gl@2.4.0/dist/maplibre-gl.js"></script>
-    <script>
-      const map = new maplibregl.Map({
-        container: "map",
-        style:
-          "https://api.maptiler.com/maps/streets/style.json?key=YOUR_API_KEY",
-        center: [88.3639, 22.5726], // Longitude, Latitude (Example: Kolkata)
-        zoom: 12,
-      });
-      new maplibregl.Marker().setLngLat([88.3639, 22.5726]).addTo(map);
-    </script>
 
     <!-- Botstrap icon -->
     <link
@@ -75,11 +65,30 @@
   <body>
     <%- include("../includes/navbar.ejs") %> <%-
     include("../includes/flash.ejs") %>
-  <div><%- body %></div> 
+    <div><%- body %></div>
     <%- include("../includes/footer.ejs") %>
 
     <script src="/js/script.js"></script>
-    <script src="/js/indexejs.js"></script>
+    <!-- <script src="/js/indexejs.js"></script> -->
     <script src="/js/searchResult.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/fuse.js@7.0.0"></script>
+
+    <script src="/js/search-suggestions.js"></script>
+    <script>
+      // 🛡️ STEP 1: Check if the 'map' element exists on the current page
+      const mapContainer = document.getElementById('map');
+
+      // if (mapContainer) {
+      //   // 🚀 STEP 2: Only initialize if the element is found
+      //   const map = new maplibregl.Map({
+      //     container: 'map',
+      //     style:
+      //       'https://api.maptiler.com/maps/streets/style.json?key=YOUR_API_KEY',
+      //     center: [88.3639, 22.5726],
+      //     zoom: 12,
+      //   });
+      //   new maplibregl.Marker().setLngLat([88.3639, 22.5726]).addTo(map);
+      // }
+    </script>
   </body>
 </html>

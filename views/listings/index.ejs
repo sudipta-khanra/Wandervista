@@ -1,14 +1,7 @@
 <% layout("/layouts/boilerplate.ejs")%>
 <!-- Font Awesome CDN (v6) -->
-<link
-  rel="stylesheet"
-  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-  integrity="sha512-papgG2+5Mg3oErPY0P7uNAljcjIVsAZ8qFZL8Akyukv8nAfF6SREvVSCq47gRM7rxMnhM1HJ3z6tFjzVvZkA6A=="
-  crossorigin="anonymous"
-  referrerpolicy="no-referrer"
-/>
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
 
 <style>
 .far {
@@ -125,8 +118,12 @@
   const currUserId = "<%= currUser ? currUser._id : '' %>";
 </script>
 <script>
-  const listings = <%- JSON.stringify(listings) %>;
-  const currUser = <%- JSON.stringify(currUser) %>;
+  // Ensure listings is at least an empty array to avoid syntax errors
+  const listings = <%- JSON.stringify(listings || []) %>;
+
+  // Use a fallback to null and ensure we only pass the necessary data
+  // (Passing the whole user object is a security risk anyway!)
+  const currUser = <%- currUser ? JSON.stringify({ _id: currUser._id, username: currUser.username }) : 'null' %>;
 </script>
 
 <body class="navbar_space">
