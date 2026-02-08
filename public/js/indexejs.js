@@ -318,3 +318,60 @@ document.addEventListener('DOMContentLoaded', () => {
     renderListingsWithPagination(allListings);
   }
 });
+// Price range slider
+// --- Price Range Slider FIX ---
+document.addEventListener('DOMContentLoaded', () => {
+  const minPrice = document.getElementById('minPrice');
+  const maxPrice = document.getElementById('maxPrice');
+  const minVal = document.getElementById('minVal');
+  const maxVal = document.getElementById('maxVal');
+  const sliderTrack = document.querySelector('.slider-track');
+
+  if (!minPrice || !maxPrice || !minVal || !maxVal || !sliderTrack) return;
+
+  const GAP = 500;
+
+  function updateSlider() {
+    let min = parseInt(minPrice.value);
+    let max = parseInt(maxPrice.value);
+
+    // Maintain minimum gap
+    if (max - min < GAP) {
+      if (event?.target === minPrice) {
+        min = max - GAP;
+        minPrice.value = min;
+      } else {
+        max = min + GAP;
+        maxPrice.value = max;
+      }
+    }
+
+    // Update UI values
+    minVal.textContent = min.toLocaleString('en-IN');
+    maxVal.textContent = max.toLocaleString('en-IN');
+
+    // Update slider track fill
+    const range = maxPrice.max - minPrice.min;
+    const minPercent = ((min - minPrice.min) / range) * 100;
+    const maxPercent = ((max - minPrice.min) / range) * 100;
+
+    sliderTrack.style.background = `
+      linear-gradient(
+        to right,
+        #ddd ${minPercent}%,
+        #000 ${minPercent}%,
+        #000 ${maxPercent}%,
+        #ddd ${maxPercent}%
+      )
+    `;
+
+    // 🔥 LIVE FILTERING
+    onFilterChange();
+  }
+
+  minPrice.addEventListener('input', updateSlider);
+  maxPrice.addEventListener('input', updateSlider);
+
+  // Initial render
+  updateSlider();
+});
